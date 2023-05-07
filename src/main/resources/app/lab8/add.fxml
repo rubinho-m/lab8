@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="459.0" prefWidth="339.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.lab8.CollectionInputController">
+    <children>
+        <Label fx:id="header" layoutX="88.0" layoutY="14.0" prefHeight="32.0" prefWidth="164.0" styleClass="name" stylesheets="@style.css" text="TICKET INPUT" textFill="#008f13">
+            <font>
+                <Font name="Ubuntu Light" size="24.0" />
+            </font>
+        </Label>
+        <Button fx:id="sendButton" layoutX="68.0" layoutY="390.0" mnemonicParsing="false" onAction="#sendAdd" prefHeight="54.0" prefWidth="184.0" stylesheets="@style.css" text="Send" textFill="WHITE" />
+        <TextField fx:id="nameInput" alignment="CENTER" layoutX="14.0" layoutY="61.0" prefHeight="32.0" prefWidth="120.0" promptText="name" styleClass="input-field" stylesheets="@style.css" />
+      <TextField alignment="CENTER" layoutX="14.0" layoutY="103.0" prefHeight="32.0" prefWidth="120.0" promptText="x coordinate" styleClass="input-field" stylesheets="@style.css" fx:id="xInput" />
+      <TextField fx:id="yInput" alignment="CENTER" layoutX="14.0" layoutY="147.0" prefHeight="32.0" prefWidth="120.0" promptText="y coordinate" styleClass="input-field" stylesheets="@style.css" />
+      <TextField fx:id="priceInput" alignment="CENTER" layoutX="15.0" layoutY="188.0" prefHeight="32.0" prefWidth="120.0" promptText="price" styleClass="input-field" stylesheets="@style.css" />
+      <TextField fx:id="commentInput" alignment="CENTER" layoutX="15.0" layoutY="230.0" prefHeight="32.0" prefWidth="120.0" promptText="comment" styleClass="input-field" stylesheets="@style.css" />
+      <RadioButton fx:id="refundableButton" layoutX="16.0" layoutY="279.0" mnemonicParsing="false" onAction="#manageRefundable" stylesheets="@style.css" text="refundable" />
+      <MenuButton fx:id="ticketTypeMenue" layoutX="14.0" layoutY="312.0" mnemonicParsing="false" styleClass="language" stylesheets="@style.css" text="Type" textFill="WHITE">
+        <items>
+          <MenuItem mnemonicParsing="false" text="VIP" />
+          <MenuItem mnemonicParsing="false" text="BUDGETARY" />
+            <MenuItem mnemonicParsing="false" text="CHEAP" />
+        </items>
+      </MenuButton>
+      <RadioButton fx:id="venueButton" layoutX="191.0" layoutY="68.0" mnemonicParsing="false" onAction="#manageVenue" stylesheets="@style.css" text="add venue" />
+      <TextField fx:id="venueNameInput" alignment="CENTER" layoutX="191.0" layoutY="103.0" prefHeight="32.0" prefWidth="120.0" promptText="Name" styleClass="input-field" stylesheets="@style.css" visible="false" />
+      <TextField fx:id="capacityInput" alignment="CENTER" layoutX="191.0" layoutY="147.0" prefHeight="32.0" prefWidth="120.0" promptText="capacity" styleClass="input-field" stylesheets="@style.css" visible="false" />
+      <MenuButton fx:id="venueTypeMenue" layoutX="189.0" layoutY="187.0" mnemonicParsing="false" styleClass="language" stylesheets="@style.css" text="Type" textFill="WHITE" visible="false">
+         <items>
+            <MenuItem mnemonicParsing="false" text="BAR" />
+            <MenuItem mnemonicParsing="false" text="LOFT" />
+            <MenuItem mnemonicParsing="false" text="THEATRE" />
+            <MenuItem mnemonicParsing="false" text="STADIUM" />
+         </items>
+      </MenuButton>
+      <RadioButton fx:id="addressButton" layoutX="191.0" layoutY="237.0" mnemonicParsing="false" onAction="#manageAddress" stylesheets="@style.css" text="add address" visible="false" />
+      <TextField fx:id="streetInput" alignment="CENTER" layoutX="191.0" layoutY="272.0" prefHeight="32.0" prefWidth="120.0" promptText="Street" styleClass="input-field" stylesheets="@style.css" visible="false" />
+    </children>
+</AnchorPane>
