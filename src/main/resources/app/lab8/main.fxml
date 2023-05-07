@@ -30,22 +30,25 @@
             <Font name="Ubuntu Light" size="72.0" />
          </font>
       </Label>
-      <TextArea editable="false" layoutX="334.0" layoutY="114.0" prefHeight="662.0" prefWidth="834.0" style="-fx-border-color: #33A64B; -fx-border-radius: 10;" />
+      <TextArea fx:id="textDisplay" editable="false" layoutX="334.0" layoutY="114.0" prefHeight="662.0" prefWidth="834.0" style="-fx-border-color: #33A64B; -fx-border-radius: 10;">
+         <font>
+            <Font size="16.0" />
+         </font></TextArea>
       <ScrollPane layoutX="32.0" layoutY="113.0" prefHeight="608.0" prefWidth="281.0" style="-fx-border-color: #33A64B;" stylesheets="@style.css">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="931.0" prefWidth="246.0">
                <children>
-                  <Button layoutX="26.0" layoutY="14.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="info" />
+                  <Button layoutX="26.0" layoutY="14.0" mnemonicParsing="false" onAction="#sendInfo" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="info" />
                   <Button layoutX="26.0" layoutY="82.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="show" />
                   <Button layoutX="26.0" layoutY="146.0" mnemonicParsing="false" onAction="#showAdd" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="add" />
-                  <Button layoutX="26.0" layoutY="214.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="clear" />
+                  <Button layoutX="26.0" layoutY="214.0" mnemonicParsing="false" onAction="#sendClear" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="clear" />
                   <Button fx:id="executeScriptButton" layoutX="26.0" layoutY="278.0" mnemonicParsing="false" onAction="#showExecuteScript" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="execute script" />
-                  <Button layoutX="26.0" layoutY="346.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="help" />
+                  <Button layoutX="26.0" layoutY="346.0" mnemonicParsing="false" onAction="#sendHelp" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="help" />
                   <Button fx:id="removeByIdButton" layoutX="26.0" layoutY="410.0" mnemonicParsing="false" onAction="#showRemoveById" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="remove by id" />
                   <Button layoutX="26.0" layoutY="478.0" mnemonicParsing="false" onAction="#showUpdate" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="update" />
                   <Button layoutX="26.0" layoutY="544.0" mnemonicParsing="false" onAction="#showAddIfMin" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="add if min" />
-                  <Button layoutX="26.0" layoutY="612.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="history" />
-                  <Button layoutX="26.0" layoutY="676.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="min by price" />
+                  <Button layoutX="26.0" layoutY="612.0" mnemonicParsing="false" onAction="#sendHistory" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="history" />
+                  <Button layoutX="26.0" layoutY="676.0" mnemonicParsing="false" onAction="#sendMinByPrice" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="min by price" />
                   <Button layoutX="26.0" layoutY="744.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="print by venues" />
                   <Button fx:id="filterButton" layoutX="26.0" layoutY="808.0" mnemonicParsing="false" onAction="#showFilter" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="filter &gt; than price" />
                   <Button layoutX="26.0" layoutY="876.0" mnemonicParsing="false" onAction="#showRemoveGreater" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="remove greater" />
@@ -54,5 +57,10 @@
         </content>
       </ScrollPane>
       <Button fx:id="ticketButton" layoutX="90.0" layoutY="727.0" mnemonicParsing="false" onAction="#showVisualisation" prefHeight="71.0" prefWidth="130.0" styleClass="ticket" stylesheets="@style.css" />
+      <Label fx:id="userLabel" layoutX="32.0" layoutY="77.0" prefHeight="36.0" prefWidth="314.0" styleClass="name" stylesheets="@style.css">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

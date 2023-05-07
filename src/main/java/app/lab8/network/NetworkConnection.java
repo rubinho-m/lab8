@@ -86,7 +86,6 @@ public class NetworkConnection {
                         buf.clear();
                         out.close();
                         objectOutputStream.close();
-                        System.out.println("Отправил");
                         socketChannel.register(selector, SelectionKey.OP_READ);
                     }
                     if (key.isReadable()) {
@@ -101,32 +100,37 @@ public class NetworkConnection {
                         ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
 
                         try {
-                            System.out.println("Читаю");
                             Response response = (Response) objectInputStream.readObject();
 
                             if (response.getOutput().split(" ")[0].equals("!<>!")) {
                                 int condition = Integer.parseInt(response.getOutput().split(" ")[1]);
                                 if (condition == 0) {
                                     System.out.println("Регистрация прошла успешно");
+                                    Container.setAuthResponse("Регистрация прошла успешно");
                                     regFlag = true;
                                     authFlag = true;
                                 }
                                 if (condition == 1) {
                                     System.out.println("Такой пользователь уже есть");
+                                    Container.setAuthResponse("Такой пользователь уже есть");
                                 }
                                 if (condition == 2) {
                                     System.out.println("Авторизация прошла успешно");
+                                    Container.setAuthResponse("Авторизация прошла успешно");
                                     regFlag = true;
                                     authFlag = true;
                                 }
                                 if (condition == 3) {
                                     System.out.println("Неверный пароль");
+                                    Container.setAuthResponse("Неверный пароль");
                                 }
                                 if (condition == 4) {
                                     System.out.println("Нет такого пользователя");
+                                    Container.setAuthResponse("Нет такого пользователя");
                                 }
                             } else {
                                 System.out.println(response.getOutput());
+                                Container.setActualResponse(response.getOutput());
                             }
 
 

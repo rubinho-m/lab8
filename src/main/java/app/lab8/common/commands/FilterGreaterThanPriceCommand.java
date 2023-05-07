@@ -30,6 +30,9 @@ public class FilterGreaterThanPriceCommand extends CommandTemplate implements Co
                 .map(Ticket::toString)
                 .collect(Collectors.joining());
         output.append(result);
+        if (tickets.size() == 0){
+            output.append("Коллекция пустая, добавьте в нее элементы");
+        }
 
     }
 

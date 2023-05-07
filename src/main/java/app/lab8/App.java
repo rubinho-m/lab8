@@ -28,7 +28,7 @@ public class App extends Application {
         }
         try {
             int port = Integer.parseInt(args[1]);
-//            networkConnection = new NetworkConnection(args[0], port);
+            networkConnection = new NetworkConnection(args[0], port);
             launch();
         } catch (NumberFormatException e) {
             System.out.println("Порт должен быть числом");

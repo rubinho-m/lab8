@@ -3,6 +3,7 @@ package app.lab8.controllers;
 import app.lab8.App;
 import app.lab8.common.networkStructures.Request;
 import app.lab8.network.Authentication;
+import app.lab8.network.Container;
 import app.lab8.network.NetworkConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +24,7 @@ public class AuthController {
     private PasswordField passwordInput;
 
     @FXML
-    private Label header;
+    private Label errorLabel;
 
     @FXML
     private Scene scene;
@@ -66,7 +67,8 @@ public class AuthController {
     @FXML
     protected void changeScene(ActionEvent event) throws Exception {
         if (check(type)) {
-            System.out.println("UHU");
+            Container.setUser(login);
+            Container.setPassword(authentication.encodePassword(password));
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -76,7 +78,9 @@ public class AuthController {
             stage.setScene(scene);
             stage.show();
         } else {
-            header.setText("ERROR");
+            errorLabel.setVisible(true);
+            errorLabel.setText(Container.getAuthResponse());
+
         }
 
     }
@@ -89,11 +93,9 @@ public class AuthController {
         authentication.setPassword(authentication.encodePassword(password));
         authentication.setType(type);
         Request authRequest = authentication.getRequest();
-        System.out.println(authRequest.getCommandWithArguments());
-        NetworkConnection networkConnection = new NetworkConnection("localhost", 4546);
-        networkConnection.connectionManage(authRequest);
+        App.networkConnection.connectionManage(authRequest);
 
-        return (networkConnection.isRegFlag() || networkConnection.isAuthFlag());
+        return (App.networkConnection.isRegFlag() || App.networkConnection.isAuthFlag());
 
     }
 }

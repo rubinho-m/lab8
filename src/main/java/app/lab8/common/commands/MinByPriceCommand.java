@@ -16,8 +16,9 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MinByPriceCommand extends CommandTemplate implements CommandWithResponse{
+public class MinByPriceCommand extends CommandTemplate implements CommandWithResponse {
     private StringBuilder output;
+
     public MinByPriceCommand(CollectionManager collectionManager) {
         super(collectionManager);
     }
@@ -26,14 +27,15 @@ public class MinByPriceCommand extends CommandTemplate implements CommandWithRes
     public void execute(String user) throws EmptyCollectionException {
         Set<Ticket> tickets = getCollectionManager().getCollection();
         output = new StringBuilder();
-        if (tickets.size() == 0){
+        if (tickets.size() == 0) {
             output.append("Collection is empty, please add ticket");
+        } else {
+            Map<Double, Ticket> ticketMap = tickets.stream()
+                    .collect(Collectors.toMap(Ticket::getPrice, Function.identity()));
+            Double minPrice = Collections.min(ticketMap.keySet());
+            Ticket ticketToPrint = ticketMap.get(minPrice);
+            output.append(ticketToPrint);
         }
-        Map<Double, Ticket> ticketMap = tickets.stream()
-                .collect(Collectors.toMap(Ticket::getPrice, Function.identity()));
-        Double minPrice = Collections.min(ticketMap.keySet());
-        Ticket ticketToPrint = ticketMap.get(minPrice);
-        output.append(ticketToPrint);
 
 
     }

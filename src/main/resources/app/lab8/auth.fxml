@@ -60,5 +60,6 @@
       <PasswordField fx:id="passwordInput" alignment="CENTER" layoutX="209.0" layoutY="222.0" prefHeight="37.0" prefWidth="184.0" promptText="Password" styleClass="input-field" stylesheets="@style.css" visible="false" />
       <Button fx:id="sendButton" layoutX="208.0" layoutY="266.0" mnemonicParsing="false" onAction="#changeScene" prefHeight="54.0" prefWidth="184.0" stylesheets="@style.css" text="Send" textFill="WHITE" visible="false" />
       <TextField fx:id="usernameInput" alignment="CENTER" layoutX="209.0" layoutY="181.0" prefHeight="38.0" prefWidth="184.0" promptText="Username" styleClass="input-field" stylesheets="@style.css" visible="false" />
+      <Label fx:id="errorLabel" layoutX="157.0" layoutY="80.0" prefHeight="34.0" prefWidth="390.0" styleClass="error" stylesheets="@style.css" visible="false" />
    </children>
 </AnchorPane>
