@@ -24,17 +24,17 @@ public class ArgumentController {
         stage.close();
     }
 
-    private Request makeRequest(ArrayList<String> commandWithArguments, Ticket ticket){
+    private Request makeRequest(ArrayList<String> commandWithArguments){
         ArrayList<String> userData = new ArrayList<>();
         userData.add(Container.getUser());
         userData.add(Container.getPassword());
-        return new Request(commandWithArguments, ticket, userData);
+        return new Request(commandWithArguments, null, userData);
     }
     private void sendCommandWithArgument(String command, String argument) throws Exception {
         ArrayList<String> commandWithArguments = new ArrayList<>();
         commandWithArguments.add(command);
         commandWithArguments.add(argument);
-        Request request = makeRequest(commandWithArguments, null);
+        Request request = makeRequest(commandWithArguments);
         App.networkConnection.connectionManage(request);
 
     }

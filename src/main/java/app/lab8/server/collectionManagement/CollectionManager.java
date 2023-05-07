@@ -46,10 +46,10 @@ public class CollectionManager {
                     System.out.println("Venue name is empty, please fix it");
                     System.exit(1);
                 }
-                if (ticket.getVenue().getType() == null) {
-                    System.out.println("Venue type is null, please fix it");
-                    System.exit(1);
-                }
+//                if (ticket.getVenue().getType() == null) {
+//                    System.out.println("Venue type is null, please fix it");
+//                    System.exit(1);
+//                }
                 if (ticket.getVenue().getAddress() != null) {
                     if (ticket.getVenue().getAddress().getStreet().isBlank() | ticket.getVenue().getAddress().getStreet() == null) {
                         System.out.println("Street in your address is empty, please fix it");

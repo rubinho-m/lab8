@@ -12,6 +12,25 @@ public class Validator {
 
     }
 
+    public boolean isXOk(String sx){
+        try {
+            float x = Float.parseFloat(sx);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isYOk(String sy) {
+        try {
+            int y = Integer.parseInt(sy);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
     public boolean isPriceOk(String sprice) {
         try {
             double price = Double.parseDouble(sprice);
@@ -29,5 +48,6 @@ public class Validator {
             return false;
         }
     }
+
 
 }

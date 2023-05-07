@@ -90,7 +90,8 @@ public class DatabaseHandler {
 
 
     }
-    public synchronized int getUserId (String user) throws SQLException {
+
+    public synchronized int getUserId(String user) throws SQLException {
         final String USER_REQUEST = "SELECT * FROM users WHERE login = ?;";
         try (PreparedStatement userStatement = connection.prepareStatement(USER_REQUEST)) {
             userStatement.setString(1, user);
@@ -108,7 +109,7 @@ public class DatabaseHandler {
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;";
         int user_id = getUserId(ticket.getUser());
         Integer venue_id = null;
-        if (ticket.getVenue() != null){
+        if (ticket.getVenue() != null) {
             venue_id = addVenue(ticket.getVenue());
         }
         try (PreparedStatement addStatement = connection.prepareStatement(ADD_REQUEST)) {
@@ -131,19 +132,19 @@ public class DatabaseHandler {
             }
             addStatement.setInt(10, user_id);
             ResultSet resultSet = addStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             }
 
 
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return 0;
     }
 
     public synchronized int addVenue(Venue venue) throws SQLException {
-        final String ADD_REQUEST = "INSERT INTO venues (name, capacity, venue_type, address) VALUES (?, ?, ?, ?);";
+        final String ADD_REQUEST = "INSERT INTO venues (name, capacity, venue_type, address) VALUES (?, ?, ?, ?) RETURNING id;";
         Integer address_id = null;
         if (venue.getAddress() != null) {
             address_id = addAddress(venue.getAddress());
@@ -151,14 +152,22 @@ public class DatabaseHandler {
         try (PreparedStatement addStatement = connection.prepareStatement(ADD_REQUEST)) {
             addStatement.setString(1, venue.getName());
             addStatement.setLong(2, venue.getCapacity());
-            addStatement.setString(3, String.valueOf(venue.getType()));
+            if (venue.getType() != null) {
+                addStatement.setString(3, String.valueOf(venue.getType()));
+            } else {
+                addStatement.setNull(3, Types.NULL);
+            }
+
             if (address_id != null) {
                 addStatement.setInt(4, address_id);
             } else {
                 addStatement.setNull(4, Types.NULL);
             }
             ResultSet resultSet = addStatement.executeQuery();
-            return resultSet.getInt(1);
+            if (resultSet.next()){
+                return resultSet.getInt(1);
+            }
+            return 0;
         }
     }
 
@@ -167,7 +176,10 @@ public class DatabaseHandler {
         try (PreparedStatement addStatement = connection.prepareStatement(ADD_REQUEST)) {
             addStatement.setString(1, address.getStreet());
             ResultSet resultSet = addStatement.executeQuery();
-            return resultSet.getInt(1);
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 0;
         }
     }
 }
