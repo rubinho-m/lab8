@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="335.0" prefWidth="261.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.lab8.ArgumentController">
+<AnchorPane prefHeight="335.0" prefWidth="261.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.lab8.controllers.ArgumentController">
    <children>
       <Label fx:id="header" layoutX="28.0" layoutY="14.0" prefHeight="33.0" prefWidth="218.0" styleClass="name" stylesheets="@style.css" text="ARGUMENT INPUT" textFill="#008f13">
          <font>

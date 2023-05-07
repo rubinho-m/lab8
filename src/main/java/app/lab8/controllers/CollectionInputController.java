@@ -1,4 +1,4 @@
-package app.lab8;
+package app.lab8.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

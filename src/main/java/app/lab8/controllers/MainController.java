@@ -1,12 +1,11 @@
-package app.lab8;
+package app.lab8.controllers;
 
+import app.lab8.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class MainController {
 
     @FXML
     private void showArgumentWindow(ActionEvent event, String window) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Client.class.getResource(String.format("%s.fxml", window)));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(String.format("%s.fxml", window)));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         stage.setX(0);

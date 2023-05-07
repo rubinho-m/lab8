@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Ledger>
+    <Tickets>
+        <Ticket>
+            <name>first</name>
+            <coordinates>
+                <x>1.0</x>
+                <y>1</y>
+            </coordinates>
+            <price>100.0</price>
+            <comment>first_comment</comment>
+            <refundable>true</refundable>
+            <type>VIP</type>
+            <venue>
+                <id>2</id>
+                <name>VENUE</name>
+                <capacity>109</capacity>
+                <type>BAR</type>
+                <address>
+                    <street>STREET</street>
+                </address>
+            </venue>
+        </Ticket>
+        <Ticket>
+            <name>first</name>
+            <coordinates>
+                <x>1.0</x>
+                <y>1</y>
+            </coordinates>
+            <price>100.0</price>
+            <comment>first_comment</comment>
+            <refundable>true</refundable>
+            <type>VIP</type>
+            <venue>
+                <id>2</id>
+                <name>VENUE</name>
+                <capacity>109</capacity>
+                <type>BAR</type>
+                <address>
+                    <street>STREET</street>
+                </address>
+            </venue>
+        </Ticket>
+    </Tickets>
+</Ledger>
