@@ -117,14 +117,172 @@ public class MainController {
         nameColumn.setOnEditCommit(event -> {
             TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
             ticket.setName(event.getNewValue());
-            System.out.println(ticket);
-            System.out.println(event.getNewValue());
             try {
                 sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
             } catch (Exception ignored) {
             }
+        });
+        commentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        commentColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setComment(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception ignored) {
+            }
+        });
+        refundableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        refundableColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setRefundable(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception ignored) {
+            }
+        });
+        typeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        typeColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setType(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception e) {
+
+                try {
+                    sendShow(new ActionEvent());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+
+        venueColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        venueColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setVenueName(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception e) {
+                try {
+                    sendShow(new ActionEvent());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+        capacityColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        capacityColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setCapacity(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception e) {
+                try {
+                    sendShow(new ActionEvent());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+        streetColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        streetColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setStreet(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception e) {
+                try {
+                    sendShow(new ActionEvent());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+        venueTypeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        venueTypeColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setVenueType(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception e) {
+                try {
+                    sendShow(new ActionEvent());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
 
 
+        xColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        xColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setX(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception e) {
+                try {
+                    sendShow(new ActionEvent());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+
+        yColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        yColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setY(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception e) {
+                try {
+                    sendShow(new ActionEvent());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+        priceColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        priceColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setPrice(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception e) {
+                try {
+                    sendShow(new ActionEvent());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+
+        dateColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        dateColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setCreationDate(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+                sendShow(new ActionEvent());
+            } catch (Exception e) {
+                try {
+                    sendShow(new ActionEvent());
+                } catch (Exception ignored) {
+
+                }
+            }
         });
 
         Duration duration = Duration.seconds(1);
@@ -142,7 +300,6 @@ public class MainController {
     private Ticket getTicket(TableTicket ticket) {
         Ticket returnTicket = new Ticket();
         returnTicket.setId(Long.valueOf(ticket.getId()));
-        System.out.println(ticket.getName());
         returnTicket.setName(ticket.getName());
         Coordinates coordinates = new Coordinates();
         coordinates.setX(Float.parseFloat(ticket.getX()));
@@ -153,6 +310,7 @@ public class MainController {
         returnTicket.setCreationDate(LocalDate.parse(ticket.getCreationDate()));
         returnTicket.setRefundable(Boolean.parseBoolean(ticket.getRefundable()));
         returnTicket.setUser(ticket.getUser());
+        returnTicket.setType(TicketType.valueOf(ticket.getType()));
         Venue venue = new Venue();
         try {
             venue.setId(ticket.getVenueId());
