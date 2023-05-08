@@ -95,6 +95,11 @@ public class MainController {
     }
 
     @FXML
+    void sendPrintVenues(ActionEvent event) throws Exception {
+        sendCommandWithoutArgument("print_field_descending_venue");
+    }
+
+    @FXML
     private void showArgumentWindow(ActionEvent event, String window) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(String.format("%s.fxml", window)));
         Scene scene = new Scene(fxmlLoader.load());

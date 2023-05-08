@@ -63,6 +63,9 @@ public class CollectionInputController {
     @FXML
     private TextField yInput;
 
+    @FXML
+    private TextField idInput;
+
     private String ticketType = null;
     private String venueType = null;
 
@@ -123,29 +126,29 @@ public class CollectionInputController {
             flag = true;
         }
 
-        if (nameInput.getText().isBlank()){
+        if (nameInput.getText().isBlank()) {
             flag = true;
             nameInput.setStyle("-fx-border-color: red");
         }
-        if (commentInput.getText().isBlank()){
+        if (commentInput.getText().isBlank()) {
             flag = true;
             commentInput.setStyle("-fx-border-color: red");
         }
 
-        if (venueFlag){
+        if (venueFlag) {
             System.out.println("ТУТ");
 
-            if (venueNameInput.getText().isBlank()){
+            if (venueNameInput.getText().isBlank()) {
                 venueNameInput.setStyle("-fx-border-color: red");
                 flag = true;
             }
-            if (!validator.isCapacityOk(capacityInput.getText())){
+            if (!validator.isCapacityOk(capacityInput.getText())) {
                 capacityInput.setStyle("-fx-border-color: red");
                 flag = true;
             }
             Venue venue = new Venue();
 
-            if (!flag){
+            if (!flag) {
 
                 venue.setName(venueNameInput.getText());
                 venue.setCapacity(Long.parseLong(capacityInput.getText()));
@@ -154,10 +157,10 @@ public class CollectionInputController {
                 }
             }
 
-            if (addressFlag){
+            if (addressFlag) {
                 Address address = new Address();
 
-                if (streetInput.getText().isBlank()){
+                if (streetInput.getText().isBlank()) {
                     streetInput.setStyle("-fx-border-color: red");
                     return null;
                 }
@@ -186,7 +189,6 @@ public class CollectionInputController {
             ticket.setType(TicketType.valueOf(ticketType));
         }
         ticket.setUser(Container.getUser());
-
 
 
         return ticket;
@@ -228,23 +230,42 @@ public class CollectionInputController {
     }
 
     @FXML
-    void sendAddIfMin(ActionEvent event) {
-        System.out.println("Отправил добавление min");
-        closeStage(event);
+    void sendAddIfMin(ActionEvent event) throws Exception {
+        Ticket ticket = parseTicket();
+        System.out.println(ticket);
+        if (ticket != null) {
+            sendCollectionCommand("add_if_min", ticket);
+            closeStage(event);
+        }
 
     }
 
     @FXML
-    void sendRemoveGreater(ActionEvent event) {
-        System.out.println("Отправил удаление greater");
-        closeStage(event);
+    void sendRemoveGreater(ActionEvent event) throws Exception {
+        Ticket ticket = parseTicket();
+        System.out.println(ticket);
+        if (ticket != null) {
+            sendCollectionCommand("remove_greater", ticket);
+            closeStage(event);
+        }
 
     }
 
     @FXML
-    void sendUpdate(ActionEvent event) {
-        System.out.println("Отправил обновление");
-        closeStage(event);
+    void sendUpdate(ActionEvent event) throws Exception {
+        idInput.setStyle("-fx-border-color: #33A64B");
+        Ticket ticket = parseTicket();
+        String argument = idInput.getText();
+        try {
+            int arg = Integer.parseInt(argument);
+            if (ticket != null) {
+                sendCollectionCommand("update", argument, ticket);
+                closeStage(event);
+            }
+        } catch (Exception e) {
+            idInput.setStyle("-fx-border-color: red");
+        }
+
 
     }
 

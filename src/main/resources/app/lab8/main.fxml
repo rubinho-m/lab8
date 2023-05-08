@@ -49,7 +49,7 @@
                   <Button layoutX="26.0" layoutY="544.0" mnemonicParsing="false" onAction="#showAddIfMin" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="add if min" />
                   <Button layoutX="26.0" layoutY="612.0" mnemonicParsing="false" onAction="#sendHistory" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="history" />
                   <Button layoutX="26.0" layoutY="676.0" mnemonicParsing="false" onAction="#sendMinByPrice" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="min by price" />
-                  <Button layoutX="26.0" layoutY="744.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="print by venues" />
+                  <Button layoutX="26.0" layoutY="744.0" mnemonicParsing="false" onAction="#sendPrintVenues" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="print by venues" />
                   <Button fx:id="filterButton" layoutX="26.0" layoutY="808.0" mnemonicParsing="false" onAction="#showFilter" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="filter &gt; than price" />
                   <Button layoutX="26.0" layoutY="876.0" mnemonicParsing="false" onAction="#showRemoveGreater" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="remove greater" />
                </children>
