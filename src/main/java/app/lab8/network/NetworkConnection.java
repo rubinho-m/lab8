@@ -3,6 +3,7 @@ package app.lab8.network;
 
 import app.lab8.common.networkStructures.Response;
 import app.lab8.common.networkStructures.Request;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -80,6 +81,8 @@ public class NetworkConnection {
                         ByteBuffer buf = ByteBuffer.wrap(out.toByteArray());
                         buf.rewind();
 
+                        System.out.println(request.getCommandWithArguments().get(0));
+
                         while (buf.hasRemaining()) {
                             socketChannel.write(buf);
                         }
@@ -129,8 +132,8 @@ public class NetworkConnection {
                                     Container.setAuthResponse("Нет такого пользователя");
                                 }
                             } else {
-                                System.out.println(response.getOutput());
-                                Container.setActualResponse(response.getOutput());
+//                                System.out.println(response.getOutput());
+                                Container.setActualResponse(response.getOutput() + "\n" + Container.getActualResponse());
                             }
 
 

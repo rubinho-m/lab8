@@ -30,7 +30,7 @@
             <Font name="Ubuntu Light" size="72.0" />
          </font>
       </Label>
-      <TextArea fx:id="textDisplay" editable="false" layoutX="334.0" layoutY="114.0" prefHeight="662.0" prefWidth="834.0" style="-fx-border-color: #33A64B; -fx-border-radius: 10;">
+      <TextArea fx:id="textDisplay" editable="false" layoutX="334.0" layoutY="114.0" prefHeight="662.0" prefWidth="834.0" style="-fx-border-color: #33A64B; -fx-border-radius: 10;" stylesheets="@style.css">
          <font>
             <Font size="16.0" />
          </font></TextArea>

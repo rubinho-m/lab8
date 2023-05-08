@@ -4,16 +4,20 @@ import app.lab8.App;
 import app.lab8.common.networkStructures.Request;
 import app.lab8.common.structureClasses.Ticket;
 import app.lab8.network.Container;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +43,20 @@ public class MainController {
     @FXML
     void initialize() {
         userLabel.setText("User: " + Container.getUser());
+        Node node = textDisplay;
+
+        Duration duration = Duration.seconds(1);
+        Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
+            textDisplay.setText(Container.getActualResponse());
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play(); //
+
+
+//        node.setOnMouseMoved(event -> {
+//            textDisplay.setText(Container.getActualResponse());
+//        });
+
 
     }
 
@@ -98,6 +116,7 @@ public class MainController {
     void sendPrintVenues(ActionEvent event) throws Exception {
         sendCommandWithoutArgument("print_field_descending_venue");
     }
+
 
     @FXML
     private void showArgumentWindow(ActionEvent event, String window) throws IOException {

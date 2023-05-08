@@ -4,7 +4,7 @@ public class Container {
     private static String authResponse;
     private static String user;
     private static String password;
-    private static String actualResponse;
+    private static String actualResponse = "";
 
     public static String getActualResponse() {
         return actualResponse;
