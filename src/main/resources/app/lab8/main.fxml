@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -27,7 +28,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </MenuButton>
-      <Label fx:id="header" layoutX="470.0" layoutY="14.0" prefHeight="94.0" prefWidth="306.0" styleClass="name" stylesheets="@style.css" text="TICKETS" textFill="#008f13">
+      <Label fx:id="header" layoutX="475.0" layoutY="-1.0" prefHeight="94.0" prefWidth="306.0" styleClass="name" stylesheets="@style.css" text="TICKETS" textFill="#008f13">
          <font>
             <Font name="Ubuntu Light" size="72.0" />
          </font>
@@ -64,7 +65,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <TableView fx:id="ticketTable" editable="true" layoutX="335.0" layoutY="111.0" prefHeight="669.0" prefWidth="866.0" stylesheets="@style.css" visible="false">
+      <TableView fx:id="ticketTable" editable="true" layoutX="335.0" layoutY="111.0" prefHeight="613.0" prefWidth="866.0" stylesheets="@style.css" visible="false">
         <columns>
           <TableColumn fx:id="idColumn" prefWidth="44.800048828125" resizable="false" text="id" />
           <TableColumn fx:id="nameColumn" prefWidth="68.79995727539062" resizable="false" text="name" />
@@ -82,6 +83,26 @@
             <TableColumn fx:id="venueTypeColumn" prefWidth="67.4666748046875" resizable="false" text="type" />
         </columns>
       </TableView>
-      <Button fx:id="removeButton" layoutX="1069.0" layoutY="28.0" mnemonicParsing="false" onAction="#removeSelected" prefHeight="42.0" prefWidth="130.0" stylesheets="@style.css" text="remove" visible="false" />
+      <Button fx:id="removeButton" layoutX="1063.0" layoutY="734.0" mnemonicParsing="false" onAction="#removeSelected" prefHeight="42.0" prefWidth="130.0" stylesheets="@style.css" text="remove" visible="false" />
+      <TextField fx:id="filterInput" layoutX="816.0" layoutY="59.0" prefHeight="35.0" prefWidth="202.0" styleClass="input-field" stylesheets="@style.css" visible="false" />
+      <MenuButton fx:id="filterMenu" layoutX="1055.0" layoutY="61.0" mnemonicParsing="false" styleClass="language" stylesheets="@style.css" text="Фильтр" textFill="WHITE" visible="false">
+        <items>
+            <MenuItem mnemonicParsing="false" text="id" />
+            <MenuItem mnemonicParsing="false" text="name" />
+          <MenuItem mnemonicParsing="false" text="x" />
+          <MenuItem mnemonicParsing="false" text="y" />
+            <MenuItem mnemonicParsing="false" text="price" />
+            <MenuItem mnemonicParsing="false" text="date" />
+            <MenuItem mnemonicParsing="false" text="comment" />
+            <MenuItem mnemonicParsing="false" text="refundable" />
+            <MenuItem mnemonicParsing="false" text="type" />
+            <MenuItem mnemonicParsing="false" text="creator" />
+            <MenuItem mnemonicParsing="false" text="venue" />
+            <MenuItem mnemonicParsing="false" text="capacity" />
+            <MenuItem mnemonicParsing="false" text="street" />
+            <MenuItem mnemonicParsing="false" text="venue type" />
+        </items>
+      </MenuButton>
+      <Button fx:id="resetButton" layoutX="334.0" layoutY="738.0" mnemonicParsing="false" onAction="#resetFilter" stylesheets="@style.css" text="reset filter" visible="false" />
    </children>
 </AnchorPane>

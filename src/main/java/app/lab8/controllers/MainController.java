@@ -8,6 +8,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +24,9 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class MainController {
 
@@ -90,6 +94,18 @@ public class MainController {
 
     @FXML
     private TableColumn<TableTicket, String> yColumn;
+
+    @FXML
+    private MenuButton filterMenu;
+
+    @FXML
+    private TextField filterInput;
+
+    @FXML
+    private Button resetButton;
+    private String filterType = "";
+
+    private ObservableList<TableTicket> tableTickets = FXCollections.observableArrayList();
 
 
     @FXML
@@ -285,6 +301,44 @@ public class MainController {
             }
         });
 
+
+        List<MenuItem> filterItems = filterMenu.getItems();
+        for (MenuItem item : filterItems) {
+            item.setOnAction(e -> {
+                filterType = item.getText();
+                filterInput.setText("");
+            });
+        }
+
+        FilteredList<TableTicket> filteredData = new FilteredList<>(tableTickets, p -> true);
+        filterInput.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(ticket -> {
+                if (newValue.isBlank() || filterType.isBlank()) {
+                    return true;
+                }
+                return Stream.of(
+                        filterType.equals("id") && String.valueOf(ticket.getId()).equals(newValue),
+                        filterType.equals("name") && ticket.getName().contains(newValue),
+                        filterType.equals("x") && ticket.getX().equals(newValue),
+                        filterType.equals("y") && ticket.getY().equals(newValue),
+                        filterType.equals("price") && ticket.getPrice().equals(newValue),
+                        filterType.equals("date") && ticket.getCreationDate().contains(newValue),
+                        filterType.equals("comment") && ticket.getComment().contains(newValue),
+                        filterType.equals("refundable") && ticket.getRefundable().equals(newValue),
+                        filterType.equals("type") && ticket.getType().equals(newValue),
+                        filterType.equals("creator") && ticket.getUser().equals(newValue),
+                        filterType.equals("venue") && ticket.getVenueName().equals(newValue),
+                        filterType.equals("capacity") && ticket.getCapacity().equals(newValue),
+                        filterType.equals("street") && ticket.getStreet().equals(newValue),
+                        filterType.equals("venue type") && ticket.getVenueType().equals(newValue)
+                ).anyMatch(Boolean::booleanValue);
+            });
+        });
+        SortedList<TableTicket> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(ticketTable.comparatorProperty());
+        ticketTable.setItems(sortedData);
+
+
         Duration duration = Duration.seconds(1);
         Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
             if (textDisplay.isVisible()) {
@@ -353,7 +407,10 @@ public class MainController {
 
     private void sendCommandWithoutArgument(String command) throws Exception {
         ticketTable.setVisible(false);
+        filterInput.setVisible(false);
+        filterMenu.setVisible(false);
         removeButton.setVisible(false);
+        resetButton.setVisible(false);
         textDisplay.setVisible(true);
         ArrayList<String> commandWithArguments = new ArrayList<>();
         commandWithArguments.add(command);
@@ -370,10 +427,14 @@ public class MainController {
 
         ticketTable.setVisible(true);
         removeButton.setVisible(true);
+        resetButton.setVisible(true);
         textDisplay.setVisible(false);
+        filterInput.setVisible(true);
+        filterMenu.setVisible(true);
         ticketTable.refresh();
         Set<Ticket> tickets = Container.getTickets();
-        ObservableList<TableTicket> tableTickets = FXCollections.observableArrayList();
+        tableTickets.clear();
+
         System.out.println(tickets.size());
         for (Ticket ticket : tickets) {
             TableTicket tableTicket = new TableTicket();
@@ -402,7 +463,7 @@ public class MainController {
             }
             tableTickets.add(tableTicket);
         }
-        ticketTable.setItems(tableTickets);
+//        ticketTable.setItems(tableTickets);
     }
 
     @FXML
@@ -469,10 +530,19 @@ public class MainController {
         stage.setOnHiding(we -> {
             textDisplay.setVisible(true);
             ticketTable.setVisible(false);
+            filterInput.setVisible(false);
+            filterMenu.setVisible(false);
             removeButton.setVisible(false);
+            resetButton.setVisible(false);
             textDisplay.setText(Container.getActualResponse());
         });
 
+    }
+
+    @FXML
+    void resetFilter(ActionEvent event) {
+        filterType = "";
+        filterInput.setText("");
     }
 
     @FXML
