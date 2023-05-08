@@ -135,6 +135,7 @@ public class NetworkConnection {
 //                                System.out.println(response.getOutput());
 
                                 if (response.getOutput().equals("show")){
+                                    System.out.println(response.getTickets().size());
                                     Container.setTickets(response.getTickets());
                                 } else {
                                     Container.setActualResponse(response.getOutput() + "\n" + Container.getActualResponse());

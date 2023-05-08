@@ -12,6 +12,7 @@ import app.lab8.common.structureClasses.Ticket;
 import app.lab8.server.collectionManagement.CollectionManager;
 import app.lab8.common.exceptions.EmptyCollectionException;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class ShowCommand extends CommandTemplate implements CommandWithResponse{
@@ -27,7 +28,8 @@ public class ShowCommand extends CommandTemplate implements CommandWithResponse{
     public void execute(String user) throws EmptyCollectionException {
         output = new StringBuilder();
         if (getCollectionManager().getCollection().size() == 0){
-            output.append("Collection is empty, please add ticket");
+            output.append("show");
+            tickets = new HashSet<>();
         } else {
             output.append("show");
             tickets = getCollectionManager().getCollection();
@@ -39,6 +41,7 @@ public class ShowCommand extends CommandTemplate implements CommandWithResponse{
         if (output.toString().equals("show")){
             Response response = new Response(output.toString());
             response.setTickets(tickets);
+            System.out.println(tickets.size());
             return response;
         }
         return new Response(output.toString());

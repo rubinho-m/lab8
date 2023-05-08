@@ -31,19 +31,36 @@ public class UpdateCommand extends CommandTemplate implements CommandWithRespons
         if (tickets.size() == 0){
             output = "Collection is empty";
         }
+        Ticket removeTicket = null;
         for (Ticket ticketToUpdate: tickets){
             if (ticketToUpdate.getId() == Integer.parseInt(getArg())){
-                getDbHandler().removeTicket(user, (int) ticketToUpdate.getId());
-                getCollectionManager().setCollection(getDbParser().loadCollection());
+                removeTicket = ticketToUpdate;
                 break;
             }
         }
+
         Ticket newTicket = getTicket();
-//        Long tmpId = Ticket.getLastId();
-//        Ticket.setLastId((long) Integer.parseInt(getArg()) - 1);
-        getDbHandler().addTicket(newTicket);
-        collectionManager.addToCollection(newTicket);
-//        Ticket.setLastId(tmpId);
+        System.out.println(newTicket);
+        if  (removeTicket != null)
+//        getDbHandler().updateTicket(newTicket, (int) newTicket.getId());
+        {
+            int id = (int) newTicket.getId();
+
+            int condition = getDbHandler().removeTicket(user, (int) newTicket.getId());
+
+            if (condition == 0) {
+                collectionManager.getCollection().remove(removeTicket);
+                getDbHandler().addTicketWithId(newTicket, id);
+                collectionManager.addToCollection(newTicket);
+
+            } else {
+                output = "Нет прав";
+                System.out.println(output);
+            }
+        } else {
+            output = "Нет такого билета";
+        }
+
 
     }
 

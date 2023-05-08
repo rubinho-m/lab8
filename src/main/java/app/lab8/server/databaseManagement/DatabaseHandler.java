@@ -104,6 +104,7 @@ public class DatabaseHandler {
 
     }
 
+
     public synchronized int addTicket(Ticket ticket) throws SQLException {
         final String ADD_REQUEST = "INSERT INTO tickets (localdate, name, x_coord, y_coord, price, comment, refundable, ticket_type, venue, user_id)\n" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;";
@@ -143,6 +144,47 @@ public class DatabaseHandler {
         return 0;
     }
 
+    public synchronized int addTicketWithId(Ticket ticket, int id) throws SQLException {
+        final String ADD_REQUEST = "INSERT INTO tickets (id, localdate, name, x_coord, y_coord, price, comment, refundable, ticket_type, venue, user_id)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;";
+        int user_id = getUserId(ticket.getUser());
+        Integer venue_id = null;
+        if (ticket.getVenue() != null) {
+            venue_id = addVenue(ticket.getVenue());
+        }
+        try (PreparedStatement addStatement = connection.prepareStatement(ADD_REQUEST)) {
+            addStatement.setInt(1, id);
+            addStatement.setDate(2, Date.valueOf(ticket.getCreationDate()));
+            addStatement.setString(3, ticket.getName());
+            addStatement.setFloat(4, ticket.getCoordinates().getX());
+            addStatement.setInt(5, ticket.getCoordinates().getY());
+            addStatement.setFloat(6, (float) ticket.getPrice());
+            addStatement.setString(7, ticket.getComment());
+            addStatement.setBoolean(8, ticket.isRefundable());
+            if (ticket.getType() != null) {
+                addStatement.setString(9, String.valueOf(ticket.getType()));
+            } else {
+                addStatement.setNull(9, Types.NULL);
+            }
+            if (venue_id != null) {
+                addStatement.setInt(10, venue_id);
+            } else {
+                addStatement.setNull(10, Types.NULL);
+            }
+            addStatement.setInt(11, user_id);
+            ResultSet resultSet = addStatement.executeQuery();
+            if (resultSet.next()) {
+                System.out.println("EXCEPTION");
+                return resultSet.getInt(1);
+            }
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
     public synchronized int addVenue(Venue venue) throws SQLException {
         final String ADD_REQUEST = "INSERT INTO venues (name, capacity, venue_type, address) VALUES (?, ?, ?, ?) RETURNING id;";
         Integer address_id = null;
@@ -164,7 +206,7 @@ public class DatabaseHandler {
                 addStatement.setNull(4, Types.NULL);
             }
             ResultSet resultSet = addStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             }
             return 0;

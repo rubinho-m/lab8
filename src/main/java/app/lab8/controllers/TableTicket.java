@@ -7,13 +7,14 @@ import app.lab8.common.structureClasses.TicketType;
 import java.time.LocalDate;
 
 public class TableTicket {
-    private Long id;
+    private Integer venueId;
+    private String id;
     private String name;
-    private LocalDate creationDate;
-    private Double price;
+    private String creationDate;
+    private String price;
     private String comment;
-    private boolean refundable;
-    private TicketType type;
+    private String refundable;
+    private String type;
     private String user;
     private String venueName;
     private String x;
@@ -22,11 +23,19 @@ public class TableTicket {
     private String venueType;
     private String street;
 
-    public Long getId() {
+    public Integer getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(Integer venueId) {
+        this.venueId = venueId;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -38,19 +47,19 @@ public class TableTicket {
         this.name = name;
     }
 
-    public LocalDate getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -62,19 +71,19 @@ public class TableTicket {
         this.comment = comment;
     }
 
-    public boolean isRefundable() {
+    public String getRefundable() {
         return refundable;
     }
 
-    public void setRefundable(boolean refundable) {
+    public void setRefundable(String refundable) {
         this.refundable = refundable;
     }
 
-    public TicketType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(TicketType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -84,6 +93,14 @@ public class TableTicket {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getVenueName() {
+        return venueName;
+    }
+
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
     }
 
     public String getX() {
@@ -102,14 +119,6 @@ public class TableTicket {
         this.y = y;
     }
 
-    public String getVenueName() {
-        return venueName;
-    }
-
-    public void setVenueName(String venueName) {
-        this.venueName = venueName;
-    }
-
     public String getCapacity() {
         return capacity;
     }
@@ -122,8 +131,8 @@ public class TableTicket {
         return venueType;
     }
 
-    public void setVenueType(String type) {
-        this.venueType = type;
+    public void setVenueType(String venueType) {
+        this.venueType = venueType;
     }
 
     public String getStreet() {

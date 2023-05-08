@@ -82,5 +82,6 @@
             <TableColumn fx:id="venueTypeColumn" prefWidth="67.4666748046875" resizable="false" text="type" />
         </columns>
       </TableView>
+      <Button fx:id="removeButton" layoutX="1069.0" layoutY="28.0" mnemonicParsing="false" onAction="#removeSelected" prefHeight="42.0" prefWidth="130.0" stylesheets="@style.css" text="remove" visible="false" />
    </children>
 </AnchorPane>

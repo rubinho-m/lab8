@@ -2,8 +2,7 @@ package app.lab8.controllers;
 
 import app.lab8.App;
 import app.lab8.common.networkStructures.Request;
-import app.lab8.common.structureClasses.Ticket;
-import app.lab8.common.structureClasses.TicketType;
+import app.lab8.common.structureClasses.*;
 import app.lab8.network.Container;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -28,6 +28,9 @@ public class MainController {
 
     @FXML
     private Button ticketButton;
+
+    @FXML
+    private Button removeButton;
     @FXML
     private Button executeScriptButton;
 
@@ -55,19 +58,19 @@ public class MainController {
     private TableColumn<TableTicket, String> creatorColumn;
 
     @FXML
-    private TableColumn<TableTicket, LocalDate> dateColumn;
+    private TableColumn<TableTicket, String> dateColumn;
 
     @FXML
-    private TableColumn<TableTicket, Long> idColumn;
+    private TableColumn<TableTicket, String> idColumn;
 
     @FXML
     private TableColumn<TableTicket, String> nameColumn;
 
     @FXML
-    private TableColumn<TableTicket, Double> priceColumn;
+    private TableColumn<TableTicket, String> priceColumn;
 
     @FXML
-    private TableColumn<TableTicket, Boolean> refundableColumn;
+    private TableColumn<TableTicket, String> refundableColumn;
 
     @FXML
     private TableColumn<TableTicket, String> streetColumn;
@@ -77,7 +80,7 @@ public class MainController {
 
 
     @FXML
-    private TableColumn<TableTicket, TicketType> typeColumn;
+    private TableColumn<TableTicket, String> typeColumn;
 
     @FXML
     private TableColumn<TableTicket, String> venueTypeColumn;
@@ -89,20 +92,19 @@ public class MainController {
     private TableColumn<TableTicket, String> yColumn;
 
 
-
     @FXML
     void initialize() {
         userLabel.setText("User: " + Container.getUser());
 
-        idColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, Long>("id"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("name"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, Double>("price"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("price"));
         commentColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("comment"));
         xColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("x"));
         yColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("y"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, LocalDate>("creationDate"));
-        refundableColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, Boolean>("refundable"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, TicketType>("type"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("creationDate"));
+        refundableColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("refundable"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("type"));
         creatorColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("user"));
         creatorColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("user"));
         venueColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("venueName"));
@@ -111,10 +113,19 @@ public class MainController {
         venueTypeColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("venueType"));
         streetColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("street"));
 
+        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        nameColumn.setOnEditCommit(event -> {
+            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ticket.setName(event.getNewValue());
+            System.out.println(ticket);
+            System.out.println(event.getNewValue());
+            try {
+                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+            } catch (Exception ignored) {
+            }
 
 
-
-        Node node = textDisplay;
+        });
 
         Duration duration = Duration.seconds(1);
         Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
@@ -123,8 +134,48 @@ public class MainController {
             }
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play(); //
+        timeline.play();
 
+
+    }
+
+    private Ticket getTicket(TableTicket ticket) {
+        Ticket returnTicket = new Ticket();
+        returnTicket.setId(Long.valueOf(ticket.getId()));
+        System.out.println(ticket.getName());
+        returnTicket.setName(ticket.getName());
+        Coordinates coordinates = new Coordinates();
+        coordinates.setX(Float.parseFloat(ticket.getX()));
+        coordinates.setY(Integer.parseInt(ticket.getY()));
+        returnTicket.setCoordinates(coordinates);
+        returnTicket.setPrice(Double.valueOf(ticket.getPrice()));
+        returnTicket.setComment(ticket.getComment());
+        returnTicket.setCreationDate(LocalDate.parse(ticket.getCreationDate()));
+        returnTicket.setRefundable(Boolean.parseBoolean(ticket.getRefundable()));
+        returnTicket.setUser(ticket.getUser());
+        Venue venue = new Venue();
+        try {
+            venue.setId(ticket.getVenueId());
+            venue.setName(ticket.getVenueName());
+            venue.setType(VenueType.valueOf(ticket.getVenueType()));
+            venue.setCapacity(Long.parseLong(ticket.getCapacity()));
+            Address address = new Address();
+            address.setStreet(ticket.getStreet());
+            venue.setAddress(address);
+            returnTicket.setVenue(venue);
+        } catch (NullPointerException ignored) {
+
+        }
+
+        return returnTicket;
+    }
+
+    private void sendCollectionCommand(String command, String argument, Ticket ticket) throws Exception {
+        ArrayList<String> commandWithArguments = new ArrayList<>();
+        commandWithArguments.add(command);
+        commandWithArguments.add(argument);
+        Request request = makeRequest(commandWithArguments, ticket);
+        App.networkConnection.connectionManage(request);
 
     }
 
@@ -144,6 +195,7 @@ public class MainController {
 
     private void sendCommandWithoutArgument(String command) throws Exception {
         ticketTable.setVisible(false);
+        removeButton.setVisible(false);
         textDisplay.setVisible(true);
         ArrayList<String> commandWithArguments = new ArrayList<>();
         commandWithArguments.add(command);
@@ -157,28 +209,34 @@ public class MainController {
     @FXML
     void sendShow(ActionEvent event) throws Exception {
         sendCommandWithoutArgument("show");
+
         ticketTable.setVisible(true);
+        removeButton.setVisible(true);
         textDisplay.setVisible(false);
+        ticketTable.refresh();
         Set<Ticket> tickets = Container.getTickets();
         ObservableList<TableTicket> tableTickets = FXCollections.observableArrayList();
+        System.out.println(tickets.size());
         for (Ticket ticket : tickets) {
             TableTicket tableTicket = new TableTicket();
-            tableTicket.setId(ticket.getId());
+            tableTicket.setId(String.valueOf(ticket.getId()));
             tableTicket.setName(ticket.getName());
             tableTicket.setX(String.valueOf(ticket.getCoordinates().getX()));
             tableTicket.setY(String.valueOf(ticket.getCoordinates().getY()));
-            tableTicket.setPrice(ticket.getPrice());
-            tableTicket.setCreationDate(ticket.getCreationDate());
+            tableTicket.setPrice(String.valueOf(ticket.getPrice()));
+            tableTicket.setCreationDate(String.valueOf(ticket.getCreationDate()));
             tableTicket.setUser(ticket.getUser());
             tableTicket.setComment(ticket.getComment());
-            tableTicket.setRefundable(ticket.isRefundable());
-            tableTicket.setType(ticket.getType());
+            tableTicket.setRefundable(String.valueOf(ticket.isRefundable()));
+            tableTicket.setType(String.valueOf(ticket.getType()));
             if (ticket.getVenue() == null) {
+                tableTicket.setVenueId(null);
                 tableTicket.setVenueName(null);
                 tableTicket.setCapacity(null);
                 tableTicket.setVenueType(null);
                 tableTicket.setStreet(null);
             } else {
+                tableTicket.setVenueId(ticket.getVenue().getId());
                 tableTicket.setVenueName(ticket.getVenue().getName());
                 tableTicket.setCapacity(String.valueOf(ticket.getVenue().getCapacity()));
                 tableTicket.setVenueType(String.valueOf(ticket.getVenue().getType()));
@@ -198,6 +256,21 @@ public class MainController {
     @FXML
     void sendHelp(ActionEvent event) throws Exception {
         sendCommandWithoutArgument("help");
+
+    }
+
+    @FXML
+    void removeSelected(ActionEvent event) throws Exception {
+        SelectionModel<TableTicket> selectionModel = ticketTable.getSelectionModel();
+        try {
+            TableTicket selectedTicket = selectionModel.getSelectedItem();
+            String id = selectedTicket.getId();
+            sendCommandWithArgument("remove_by_id", String.valueOf(id));
+            sendShow(event);
+        } catch (NullPointerException ignored) {
+
+        }
+
 
     }
 
@@ -238,6 +311,7 @@ public class MainController {
         stage.setOnHiding(we -> {
             textDisplay.setVisible(true);
             ticketTable.setVisible(false);
+            removeButton.setVisible(false);
             textDisplay.setText(Container.getActualResponse());
         });
 
@@ -288,6 +362,15 @@ public class MainController {
     void showRemoveById(ActionEvent event) throws IOException {
         System.out.println("RemoveById");
         showArgumentWindow(event, "remove_by_id");
+    }
+
+    private void sendCommandWithArgument(String command, String argument) throws Exception {
+        ArrayList<String> commandWithArguments = new ArrayList<>();
+        commandWithArguments.add(command);
+        commandWithArguments.add(argument);
+        Request request = makeRequest(commandWithArguments, null);
+        App.networkConnection.connectionManage(request);
+
     }
 
 

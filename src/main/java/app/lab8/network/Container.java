@@ -2,6 +2,7 @@ package app.lab8.network;
 
 import app.lab8.common.structureClasses.Ticket;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Container {
@@ -10,7 +11,7 @@ public class Container {
     private static String password;
     private static String actualResponse = "";
     private static String lastResponse = "";
-    private static Set<Ticket> tickets;
+    private static Set<Ticket> tickets = new HashSet<>();
 
     public static Set<Ticket> getTickets() {
         return tickets;
