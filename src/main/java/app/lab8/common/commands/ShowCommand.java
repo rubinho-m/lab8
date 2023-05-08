@@ -8,38 +8,39 @@
 package app.lab8.common.commands;
 
 import app.lab8.common.networkStructures.Response;
+import app.lab8.common.structureClasses.Ticket;
 import app.lab8.server.collectionManagement.CollectionManager;
 import app.lab8.common.exceptions.EmptyCollectionException;
+
+import java.util.Set;
 
 public class ShowCommand extends CommandTemplate implements CommandWithResponse{
     private StringBuilder output;
     private int BUFFER_SIZE = 512 * 512;
     private StringBuilder outputCollection;
+    private Set<Ticket> tickets;
     public ShowCommand(CollectionManager collectionManager) {
         super(collectionManager);
     }
 
     @Override
     public void execute(String user) throws EmptyCollectionException {
+        output = new StringBuilder();
         if (getCollectionManager().getCollection().size() == 0){
-            output = new StringBuilder();
             output.append("Collection is empty, please add ticket");
         } else {
-            output = getCollectionManager().printCollection();
-            byte[] outputBytes = output.toString().getBytes();
-            int n = BUFFER_SIZE;
-            int step = 0;
-            while (outputBytes.length > BUFFER_SIZE){
-                step++;
-                n = n / 2;
-                output = getCollectionManager().printCollection(n, step);
-                outputBytes = output.toString().getBytes();
-            }
+            output.append("show");
+            tickets = getCollectionManager().getCollection();
         }
     }
 
     @Override
     public Response getCommandResponse() {
+        if (output.toString().equals("show")){
+            Response response = new Response(output.toString());
+            response.setTickets(tickets);
+            return response;
+        }
         return new Response(output.toString());
     }
 }

@@ -133,7 +133,13 @@ public class NetworkConnection {
                                 }
                             } else {
 //                                System.out.println(response.getOutput());
-                                Container.setActualResponse(response.getOutput() + "\n" + Container.getActualResponse());
+
+                                if (response.getOutput().equals("show")){
+                                    Container.setTickets(response.getTickets());
+                                } else {
+                                    Container.setActualResponse(response.getOutput() + "\n" + Container.getActualResponse());
+                                    Container.setLastResponse(response.getOutput());
+                                }
                             }
 
 

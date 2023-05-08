@@ -51,10 +51,11 @@ public class Handler {
             try {
                 while (true) {
                     Set<Future> deleteFuture = new HashSet<>();
-                    for (Future<Response> nowResponse : futureList) {
+                    for (Future nowResponse : futureList) {
+
                         if (nowResponse.isDone()) {
                             deleteFuture.add(nowResponse);
-                            Response response = nowResponse.get();
+                            Response response = (Response) nowResponse.get();
                             writer.write(response, outputStream);
                         }
                     }

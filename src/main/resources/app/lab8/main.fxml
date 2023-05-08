@@ -6,6 +6,8 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -39,7 +41,7 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="931.0" prefWidth="246.0">
                <children>
                   <Button layoutX="26.0" layoutY="14.0" mnemonicParsing="false" onAction="#sendInfo" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="info" />
-                  <Button layoutX="26.0" layoutY="82.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="show" />
+                  <Button layoutX="26.0" layoutY="82.0" mnemonicParsing="false" onAction="#sendShow" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="show" />
                   <Button layoutX="26.0" layoutY="146.0" mnemonicParsing="false" onAction="#showAdd" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="add" />
                   <Button layoutX="26.0" layoutY="214.0" mnemonicParsing="false" onAction="#sendClear" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="clear" />
                   <Button fx:id="executeScriptButton" layoutX="26.0" layoutY="278.0" mnemonicParsing="false" onAction="#showExecuteScript" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="execute script" />
@@ -62,5 +64,23 @@
             <Font size="28.0" />
          </font>
       </Label>
+      <TableView fx:id="ticketTable" editable="true" layoutX="335.0" layoutY="111.0" prefHeight="669.0" prefWidth="866.0" stylesheets="@style.css" visible="false">
+        <columns>
+          <TableColumn fx:id="idColumn" prefWidth="44.800048828125" resizable="false" text="id" />
+          <TableColumn fx:id="nameColumn" prefWidth="68.79995727539062" resizable="false" text="name" />
+            <TableColumn prefWidth="27.733306884765625" resizable="false" text="x" fx:id="xColumn" />
+            <TableColumn fx:id="yColumn" prefWidth="29.33331298828125" resizable="false" text="y" />
+            <TableColumn fx:id="priceColumn" prefWidth="50.666656494140625" resizable="false" text="price" />
+            <TableColumn fx:id="dateColumn" prefWidth="76.800048828125" resizable="false" text="date" />
+            <TableColumn fx:id="commentColumn" prefWidth="101.5999755859375" resizable="false" text="comment" />
+            <TableColumn fx:id="refundableColumn" prefWidth="72.79998779296875" resizable="false" text="refundable" />
+            <TableColumn fx:id="typeColumn" prefWidth="72.53314208984375" resizable="false" text="type" />
+            <TableColumn fx:id="creatorColumn" prefWidth="90.400146484375" resizable="false" text="creator" />
+            <TableColumn fx:id="venueColumn" prefWidth="91.99993896484375" resizable="false" text="venue" />
+            <TableColumn fx:id="capacityColumn" prefWidth="53.8668212890625" resizable="false" text="capacity" />
+            <TableColumn fx:id="streetColumn" prefWidth="73.333251953125" resizable="false" text="street" />
+            <TableColumn fx:id="venueTypeColumn" prefWidth="67.4666748046875" resizable="false" text="type" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
