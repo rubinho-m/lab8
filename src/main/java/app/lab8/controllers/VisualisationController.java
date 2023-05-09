@@ -35,64 +35,46 @@ public class VisualisationController {
     private int deltaX = 580;
     private int deltaY = 420;
 
+    private int coeff = 10;
+
     private Set<Ticket> drawTickets;
     private volatile Set<Ticket> updatedTickets;
 
     private GraphicsContext gc;
     private Map<List<Integer>, Ticket> coordTickets = new HashMap<>();
 
+    private Map<String, String> colors = new HashMap<>();
+
     @FXML
-    void initialize() throws InterruptedException {
+    void initialize() throws Exception {
         gc = plane.getGraphicsContext2D();
 
         drawTickets = Container.getTickets();
         updatedTickets = Container.getTickets();
 
-        System.out.println(drawTickets.size());
-        System.out.println(updatedTickets.size());
-
-
-
         for (Ticket ticket : drawTickets) {
             List<Integer> ticketCoords = new ArrayList<>();
             ticketCoords.add((int) (ticket.getCoordinates().getX() + deltaX));
-            ticketCoords.add(ticket.getCoordinates().getY() + deltaY);
+            ticketCoords.add(-ticket.getCoordinates().getY() + deltaY);
             coordTickets.put(ticketCoords, ticket);
+            if (!colors.containsKey(ticket.getUser())) {
+                colors.put(ticket.getUser(), getColor(ticket.getUser()));
+            }
 
 
-            draw((int) (ticket.getCoordinates().getX() + deltaX), ticket.getCoordinates().getY() + deltaY, "00ff00");
+            draw((int) (ticket.getCoordinates().getX() + deltaX), -ticket.getCoordinates().getY() + deltaY,
+                    (int) ticket.getPrice(), colors.get(ticket.getUser()));
 
         }
 
-//        Ticket firstTicket = null;
-//        Ticket secondTicket = null;
-//
-//        for (Ticket ticket: drawTickets){
-//            if (ticket.getName().equals("k")){
-//                firstTicket = ticket;
-//                break;
-//            }
-//        }
-//
-//        for (Ticket ticket: Container.getTickets()){
-//            if (ticket.getName().equals("k")){
-//                secondTicket = ticket;
-//                break;
-//            }
-//        }
-//
-//        System.out.println(firstTicket);
-//        System.out.println("\n");
-//        System.out.println(secondTicket);
-//
-//        System.out.println(firstTicket.equals(secondTicket));
-//        System.out.println(drawTickets.contains(secondTicket));
-//        System.out.println(Container.getTickets().contains(firstTicket));
 
-
-        Duration duration = Duration.seconds(5);
+        Duration duration = Duration.seconds(3);
         Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
-            check();
+            try {
+                check();
+            } catch (Exception e){
+                System.out.println(e);
+            }
         }));
 
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -108,7 +90,7 @@ public class VisualisationController {
                     for (Ticket ticket : updatedTickets) {
                         List<Integer> ticketCoords = new ArrayList<>();
                         ticketCoords.add((int) (ticket.getCoordinates().getX() + deltaX));
-                        ticketCoords.add(ticket.getCoordinates().getY() + deltaY);
+                        ticketCoords.add(-ticket.getCoordinates().getY() + deltaY);
                         coordTickets.put(ticketCoords, ticket);
                     }
                 } catch (Exception ignored) {
@@ -126,7 +108,21 @@ public class VisualisationController {
     }
 
 
-    private void erase(int x, int y) {
+    private String getColor(String user) throws Exception {
+        ArrayList<String> commandWithArguments = new ArrayList<>();
+        commandWithArguments.add("color");
+        commandWithArguments.add(user);
+        ArrayList<String> userData = new ArrayList<>();
+        userData.add(Container.getUser());
+        userData.add(Container.getPassword());
+        Request request = new Request(commandWithArguments, null, userData);
+        App.networkConnection.connectionManage(request);
+        return Container.getLastResponse();
+    }
+
+    private void erase(int x, int y, int price) {
+        int width = 50;
+        int height = 20;
         Iterator<Node> iterator = pane.getChildren().iterator();
         while (iterator.hasNext()) {
             Node node = iterator.next();
@@ -139,18 +135,21 @@ public class VisualisationController {
         }
 
         gc.setFill(Color.web("D5E8D4"));
-        gc.fillRect(x, y, 50, 20);
+        int newWidth = width / coeff * price;
+        int newHeight = height / coeff * price;
+        gc.fillRect(x, y, newWidth, newHeight);
 
     }
 
-    private void check() {
-        System.out.println(updatedTickets.size());
-        System.out.println(drawTickets.size());
-
+    private void check() throws Exception {
         for (Ticket ticket : updatedTickets) {
             if (!drawTickets.contains(ticket)) { // есть в актуальном, но не нарисован
                 System.out.println(11);
-                draw((int) (ticket.getCoordinates().getX() + deltaX), ticket.getCoordinates().getY() + deltaY, "00ff00");
+                if (!colors.containsKey(ticket.getUser())){
+                    colors.put(ticket.getUser(), getColor(ticket.getUser()));
+                }
+                draw((int) (ticket.getCoordinates().getX() + deltaX), -ticket.getCoordinates().getY() + deltaY,
+                        (int) ticket.getPrice(), colors.get(ticket.getUser()));
                 drawTickets.add(ticket);
             }
         }
@@ -158,7 +157,7 @@ public class VisualisationController {
         for (Ticket ticket : drawTickets) {
             if (!updatedTickets.contains(ticket)) { //нарисован, но уже нет в актуальном
                 System.out.println(22);
-                erase((int) ticket.getCoordinates().getX() + deltaX, ticket.getCoordinates().getY() + deltaY);
+                erase((int) ticket.getCoordinates().getX() + deltaX, -ticket.getCoordinates().getY() + deltaY, (int) ticket.getPrice());
                 ticketsForRemove.add(ticket);
             }
         }
@@ -180,11 +179,15 @@ public class VisualisationController {
         App.networkConnection.connectionManage(request);
     }
 
-    private void draw(int startX, int startY, String color) {
+    private void draw(int startX, int startY, int price, String color) {
         int width = 50;
         int height = 20;
-        int finishX = startX + width;
-        int finishY = startY + height;
+
+        int newWidth = width / coeff * price;
+        int newHeight = height / coeff * price;
+
+        int finishX = startX + newWidth;
+        int finishY = startY + newHeight;
 
         DoubleProperty x = new SimpleDoubleProperty();
         DoubleProperty y = new SimpleDoubleProperty();
@@ -206,7 +209,7 @@ public class VisualisationController {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                gc.setFill(Color.web(color));
+                gc.setFill(Color.web(color.strip()));
                 gc.fillRect(startX,
                         startY,
                         x.doubleValue(),
@@ -217,8 +220,8 @@ public class VisualisationController {
 
         timeline.setOnFinished(event -> {
             timer.stop();
-            Rectangle rectangle = new Rectangle(startX, startY, width, height);
-            rectangle.setFill(Color.web(color));
+            Rectangle rectangle = new Rectangle(startX, startY, newWidth, newHeight);
+            rectangle.setFill(Color.web(color.strip()));
             rectangle.setOnMouseClicked(e -> {
                 try {
 

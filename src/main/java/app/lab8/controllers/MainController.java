@@ -110,9 +110,8 @@ public class MainController {
 
 
     @FXML
-    void initialize() {
+    void initialize() throws Exception {
         userLabel.setText("User: " + Container.getUser());
-
         idColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("price"));
@@ -354,6 +353,7 @@ public class MainController {
         timeline.play();
 
 
+
     }
 
     private Ticket getTicket(TableTicket ticket) {
@@ -439,12 +439,14 @@ public class MainController {
     }
 
     private void sendCommandWithoutArgument(String command) throws Exception {
+
         ticketTable.setVisible(false);
         filterInput.setVisible(false);
         filterMenu.setVisible(false);
         removeButton.setVisible(false);
         resetButton.setVisible(false);
         textDisplay.setVisible(true);
+
         ArrayList<String> commandWithArguments = new ArrayList<>();
         commandWithArguments.add(command);
         Request request = makeRequest(commandWithArguments, null);
@@ -452,6 +454,7 @@ public class MainController {
         if (!command.equals("show")) {
             textDisplay.setText(Container.getActualResponse());
         }
+
     }
 
     @FXML

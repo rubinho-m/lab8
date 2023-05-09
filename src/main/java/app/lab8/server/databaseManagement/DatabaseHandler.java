@@ -60,6 +60,36 @@ public class DatabaseHandler {
 
     }
 
+    public synchronized String getColor(String user) throws SQLException {
+        final String COLOR_REQUEST = "SELECT * FROM colors WHERE login = ?;";
+        try (PreparedStatement authStatement = connection.prepareStatement(COLOR_REQUEST)) {
+
+            authStatement.setString(1, user);
+
+            ResultSet resultSet = authStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("color");
+            }
+
+            return null;
+        }
+
+    }
+
+    public synchronized void setColor(String user, String color) throws SQLException {
+        final String COLOR_REQUEST = "INSERT INTO colors (login, color) VALUES (?, ?);";
+        try (PreparedStatement authStatement = connection.prepareStatement(COLOR_REQUEST)) {
+
+            authStatement.setString(1, user);
+            authStatement.setString(2, color);
+
+            authStatement.executeUpdate();
+
+        }
+
+    }
+
     public synchronized void deleteTickets(String user) throws SQLException {
         final String DELETE_REQUEST = "DELETE FROM tickets WHERE user_id = (SELECT id FROM users WHERE login = ?);";
         try (PreparedStatement deleteStatement = connection.prepareStatement(DELETE_REQUEST)) {
