@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #D5E8D4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.lab8.controllers.VisualisationController">
+   <children>
+      <Canvas fx:id="plane" height="800.0" width="1200.0" />
+      <Pane fx:id="pane" prefHeight="802.0" prefWidth="1201.0" />
+      <Line endX="-52.5" endY="328.492919921875" layoutX="631.0" layoutY="470.0" startX="-52.5" startY="-481.0" />
+      <Line endX="969.0001220703125" endY="-1.0" layoutX="232.0" layoutY="422.0" startX="-234.00003051757812" startY="-1.0" />
+      <Line endX="-66.7928466796875" endY="-28.999996185302734" layoutX="646.0" layoutY="29.0" startX="-81.8333740234375" startY="-10.573762893676758" />
+      <Line endX="-66.7928466796875" endY="-28.999996185302734" layoutX="661.0" layoutY="33.0" rotate="270.0" startX="-83.30773162841797" startY="-16.604297637939453" />
+      <Line endX="-66.7928466796875" endY="-28.999996185302734" layoutX="1267.0" layoutY="450.0" startX="-83.30773162841797" startY="-16.604297637939453" />
+      <Line endX="-66.7928466796875" endY="-28.999996185302734" layoutX="1268.0" layoutY="435.0" rotate="90.0" startX="-83.30773162841797" startY="-16.604297637939453" />
+   </children>
+</AnchorPane>

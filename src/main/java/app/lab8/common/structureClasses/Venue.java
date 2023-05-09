@@ -6,6 +6,7 @@
 package app.lab8.common.structureClasses;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Venue implements Comparable<Venue>, Serializable {
     /**
@@ -157,5 +158,22 @@ public class Venue implements Comparable<Venue>, Serializable {
     @Override
     public int compareTo(Venue o) {
         return id.compareTo(o.getId());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Venue)) return false;
+        Venue other = (Venue) o;
+        return Objects.equals(this.id, other.getId()) &&
+                Objects.equals(this.name, other.getName()) &&
+                Objects.equals(this.capacity, other.getCapacity()) &&
+                Objects.equals(this.type, other.getType()) &&
+                Objects.equals(this.address, other.getAddress());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.name, this.capacity, this.type, this.address);
     }
 }

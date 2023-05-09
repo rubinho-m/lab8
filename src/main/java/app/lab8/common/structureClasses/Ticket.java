@@ -8,6 +8,7 @@ package app.lab8.common.structureClasses;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 public class Ticket implements Comparable<Ticket>, Serializable {
@@ -20,7 +21,7 @@ public class Ticket implements Comparable<Ticket>, Serializable {
      * @return the last assigned id value.
      */
     public static Long getLastId() {
-        if (lastId == null){
+        if (lastId == null) {
             return 0L;
         }
         return lastId;
@@ -212,6 +213,30 @@ public class Ticket implements Comparable<Ticket>, Serializable {
                 lineOutput("type", type) +
                 lineOutput("venue", venue);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Ticket)) return false;
+        Ticket other = (Ticket) o;
+        return Objects.equals(this.id, other.getId()) &&
+                Objects.equals(this.name, other.getName()) &&
+                Double.compare(this.price, other.getPrice()) == 0 &&
+                Objects.equals(this.comment, other.getComment()) &&
+                Objects.equals(this.refundable, other.isRefundable()) &&
+                Objects.equals(this.type, other.getType()) &&
+                Objects.equals(this.user, other.getUser()) &&
+                Objects.equals(this.creationDate, other.getCreationDate()) &&
+                Objects.equals(this.coordinates, other.getCoordinates()) &&
+                Objects.equals(this.venue, other.getVenue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.name, this.price, this.comment, this.refundable, this.type, this.user,
+                this.creationDate, this.coordinates, this.venue);
+    }
+
 
     public LocalDate getCreationDate() {
         return creationDate;

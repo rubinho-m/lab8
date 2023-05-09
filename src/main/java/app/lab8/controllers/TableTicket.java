@@ -142,4 +142,25 @@ public class TableTicket {
     public void setStreet(String street) {
         this.street = street;
     }
+
+    private String lineOutput(String line, Object value) {
+        return line + " : " + value + "\n";
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket object:" + "\n" +
+                lineOutput("id", id) +
+                lineOutput("name", name) +
+                lineOutput("creationDate", creationDate) +
+                lineOutput("x", x) +
+                lineOutput("y", y) +
+                lineOutput("created by", user) +
+                lineOutput("price", price) +
+                lineOutput("comment", comment) +
+                lineOutput("refundable", refundable) +
+                lineOutput("type", type) +
+                lineOutput("venue name", venueName) +
+                lineOutput("venue type", venueType);
+    }
 }

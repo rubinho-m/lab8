@@ -6,6 +6,7 @@
 package app.lab8.common.structureClasses;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 public class Coordinates implements Serializable, Comparable<Coordinates> {
@@ -61,5 +62,19 @@ public class Coordinates implements Serializable, Comparable<Coordinates> {
             res = Integer.compare(this.y, o.y);
         }
         return res;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Coordinates)) return false;
+        Coordinates other = (Coordinates) o;
+        return Float.compare(this.x, other.getX()) == 0 &&
+                this.y == other.getY();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.x, this.y);
     }
 }

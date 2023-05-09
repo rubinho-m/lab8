@@ -68,11 +68,11 @@
       <TableView fx:id="ticketTable" editable="true" layoutX="335.0" layoutY="111.0" prefHeight="613.0" prefWidth="866.0" stylesheets="@style.css" visible="false">
         <columns>
           <TableColumn fx:id="idColumn" prefWidth="44.800048828125" resizable="false" text="id" />
-          <TableColumn fx:id="nameColumn" prefWidth="68.79995727539062" resizable="false" text="name" />
-            <TableColumn prefWidth="27.733306884765625" resizable="false" text="x" fx:id="xColumn" />
-            <TableColumn fx:id="yColumn" prefWidth="29.33331298828125" resizable="false" text="y" />
-            <TableColumn fx:id="priceColumn" prefWidth="50.666656494140625" resizable="false" text="price" />
-            <TableColumn fx:id="dateColumn" prefWidth="76.800048828125" resizable="false" text="date" />
+          <TableColumn fx:id="nameColumn" prefWidth="53.600006103515625" resizable="false" text="name" />
+            <TableColumn prefWidth="43.199981689453125" resizable="false" text="x" fx:id="xColumn" />
+            <TableColumn fx:id="yColumn" prefWidth="50.39996337890625" resizable="false" text="y" />
+            <TableColumn fx:id="priceColumn" prefWidth="52.800048828125" resizable="false" text="price" />
+            <TableColumn fx:id="dateColumn" prefWidth="56.00006103515625" resizable="false" text="date" />
             <TableColumn fx:id="commentColumn" prefWidth="101.5999755859375" resizable="false" text="comment" />
             <TableColumn fx:id="refundableColumn" prefWidth="72.79998779296875" resizable="false" text="refundable" />
             <TableColumn fx:id="typeColumn" prefWidth="72.53314208984375" resizable="false" text="type" />

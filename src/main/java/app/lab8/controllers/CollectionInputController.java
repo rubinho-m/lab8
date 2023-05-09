@@ -75,6 +75,40 @@ public class CollectionInputController {
 
     @FXML
     void initialize() {
+        if (Container.getTicketToUpdate() != null){
+            Ticket ticket = Container.getTicketToUpdate();
+            idInput.setText(String.valueOf(ticket.getId()));
+            nameInput.setText(ticket.getName());
+            xInput.setText(String.valueOf(ticket.getCoordinates().getX()));
+            yInput.setText(String.valueOf(ticket.getCoordinates().getY()));
+            priceInput.setText(String.valueOf(ticket.getPrice()));
+            commentInput.setText(ticket.getComment());
+            refundableButton.setSelected(ticket.isRefundable());
+            if (ticket.getType() != null) {
+                ticketType = String.valueOf(ticket.getType());
+            }
+            Venue venue = ticket.getVenue();
+            if (venue != null){
+                venueButton.setSelected(true);
+                venueNameInput.setVisible(true);
+                venueNameInput.setText(venue.getName());
+                capacityInput.setVisible(true);
+                capacityInput.setText(String.valueOf(venue.getCapacity()));
+                if (venue.getType() != null){
+                    venueType = String.valueOf(venue.getType());
+                }
+                Address address = venue.getAddress();
+                if (address != null){
+                    streetInput.setVisible(true);
+                    addressButton.setSelected(true);
+                    streetInput.setText(address.getStreet());
+                }
+
+            }
+
+        }
+
+
         List<MenuItem> ticketItems = ticketTypeMenue.getItems();
         for (MenuItem item : ticketItems) {
             item.setOnAction(e -> {
@@ -259,6 +293,7 @@ public class CollectionInputController {
         try {
             int arg = Integer.parseInt(argument);
             if (ticket != null) {
+                ticket.setId(Long.valueOf(arg));
                 sendCollectionCommand("update", argument, ticket);
                 closeStage(event);
             }

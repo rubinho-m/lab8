@@ -6,6 +6,7 @@ package app.lab8.common.structureClasses;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Address implements Serializable {
     /**
@@ -40,6 +41,19 @@ public class Address implements Serializable {
     @Override
     public String toString() {
         return "Address object: " + "\n" + "street : " + street + "\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Address)) return false;
+        Address other = (Address) o;
+        return Objects.equals(this.street, other.getStreet());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.street);
     }
 
 }

@@ -105,6 +105,7 @@ public class MainController {
     private Button resetButton;
     private String filterType = "";
 
+
     private ObservableList<TableTicket> tableTickets = FXCollections.observableArrayList();
 
 
@@ -134,9 +135,12 @@ public class MainController {
             TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
             ticket.setName(event.getNewValue());
             try {
+                System.out.println(getTicket(ticket));
                 sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
                 sendShow(new ActionEvent());
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println(e);
             }
         });
         commentColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -146,7 +150,8 @@ public class MainController {
             try {
                 sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
                 sendShow(new ActionEvent());
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                System.out.println(e);
             }
         });
         refundableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -352,6 +357,7 @@ public class MainController {
     }
 
     private Ticket getTicket(TableTicket ticket) {
+        System.out.println(ticket);
         Ticket returnTicket = new Ticket();
         returnTicket.setId(Long.valueOf(ticket.getId()));
         returnTicket.setName(ticket.getName());
@@ -364,19 +370,37 @@ public class MainController {
         returnTicket.setCreationDate(LocalDate.parse(ticket.getCreationDate()));
         returnTicket.setRefundable(Boolean.parseBoolean(ticket.getRefundable()));
         returnTicket.setUser(ticket.getUser());
-        returnTicket.setType(TicketType.valueOf(ticket.getType()));
+        if (ticket.getType() != null && !ticket.getType().equals("null")) {
+            returnTicket.setType(TicketType.valueOf(ticket.getType()));
+        } else {
+            returnTicket.setType(null);
+        }
         Venue venue = new Venue();
-        try {
+        if (ticket.getVenueName() != null && !ticket.getVenueName().equals("null")) {
+            System.out.println(0);
             venue.setId(ticket.getVenueId());
+            System.out.println(1);
             venue.setName(ticket.getVenueName());
-            venue.setType(VenueType.valueOf(ticket.getVenueType()));
-            venue.setCapacity(Long.parseLong(ticket.getCapacity()));
+            System.out.println(2);
+            if (ticket.getVenueType() != null && !ticket.getVenueType().equals("null")) {
+                venue.setType(VenueType.valueOf(ticket.getVenueType()));
+            } else {
+                venue.setType(null);
+            }
+            if (ticket.getCapacity() != null && !ticket.getCapacity().equals("null")) {
+                venue.setCapacity(Long.parseLong(ticket.getCapacity()));
+            }
+            System.out.println(4);
             Address address = new Address();
-            address.setStreet(ticket.getStreet());
+            System.out.println(5);
+            if (ticket.getStreet() != null && !ticket.getStreet().equals("null")) {
+                address.setStreet(ticket.getStreet());
+            }
+            System.out.println(6);
             venue.setAddress(address);
+            System.out.println(7);
             returnTicket.setVenue(venue);
-        } catch (NullPointerException ignored) {
-
+            System.out.println(8);
         }
 
         return returnTicket;
@@ -392,8 +416,17 @@ public class MainController {
     }
 
     @FXML
-    protected void showVisualisation() {
-        System.out.println("Визуализация");
+    protected void showVisualisation() throws Exception {
+        sendShow(new ActionEvent());
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("visualisation.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setX(100);
+        stage.setY(0);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+
 
     }
 
@@ -435,7 +468,6 @@ public class MainController {
         Set<Ticket> tickets = Container.getTickets();
         tableTickets.clear();
 
-        System.out.println(tickets.size());
         for (Ticket ticket : tickets) {
             TableTicket tableTicket = new TableTicket();
             tableTicket.setId(String.valueOf(ticket.getId()));
@@ -562,6 +594,7 @@ public class MainController {
     @FXML
     void showUpdate(ActionEvent event) throws IOException {
         System.out.println("Update");
+        Container.setTicketToUpdate(null);
         showArgumentWindow(event, "update");
 
     }

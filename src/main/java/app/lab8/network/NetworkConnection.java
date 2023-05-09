@@ -81,7 +81,6 @@ public class NetworkConnection {
                         ByteBuffer buf = ByteBuffer.wrap(out.toByteArray());
                         buf.rewind();
 
-                        System.out.println(request.getCommandWithArguments().get(0));
 
                         while (buf.hasRemaining()) {
                             socketChannel.write(buf);
@@ -135,7 +134,6 @@ public class NetworkConnection {
 //                                System.out.println(response.getOutput());
 
                                 if (response.getOutput().equals("show")){
-                                    System.out.println(response.getTickets().size());
                                     Container.setTickets(response.getTickets());
                                 } else {
                                     Container.setActualResponse(response.getOutput() + "\n" + Container.getActualResponse());

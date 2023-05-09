@@ -6,12 +6,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Container {
+    private static Ticket ticketToUpdate = null;
     private static String authResponse;
     private static String user;
     private static String password;
     private static String actualResponse = "";
     private static String lastResponse = "";
     private static Set<Ticket> tickets = new HashSet<>();
+
+    public static Ticket getTicketToUpdate() {
+        return ticketToUpdate;
+    }
+
+    public static void setTicketToUpdate(Ticket ticketToUpdate) {
+        Container.ticketToUpdate = ticketToUpdate;
+    }
 
     public static Set<Ticket> getTickets() {
         return tickets;
