@@ -5,15 +5,20 @@ import app.lab8.Validator;
 import app.lab8.common.networkStructures.Request;
 import app.lab8.common.structureClasses.*;
 import app.lab8.network.Container;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class CollectionInputController {
 
@@ -72,10 +77,56 @@ public class CollectionInputController {
     private boolean venueFlag = false;
     private boolean addressFlag = false;
 
+    private ResourceBundle resourceBundle;
+
+
+    private void changeLanguage() {
+        header.setText(resourceBundle.getString("ticketInput"));
+        sendButton.setText(resourceBundle.getString("send"));
+        nameInput.setPromptText(resourceBundle.getString("name"));
+        xInput.setPromptText(resourceBundle.getString("x"));
+        yInput.setPromptText(resourceBundle.getString("y"));
+        priceInput.setPromptText(resourceBundle.getString("price"));
+        commentInput.setPromptText(resourceBundle.getString("comment"));
+        refundableButton.setText(resourceBundle.getString("refundable"));
+        ticketTypeMenue.setText(resourceBundle.getString("type"));
+        venueButton.setText(resourceBundle.getString("addVenue"));
+        venueNameInput.setPromptText(resourceBundle.getString("venueName"));
+        capacityInput.setPromptText(resourceBundle.getString("capacity"));
+        venueTypeMenue.setText(resourceBundle.getString("type"));
+        addressButton.setText(resourceBundle.getString("addAddress"));
+        streetInput.setPromptText(resourceBundle.getString("street"));
+
+    }
+
+    private void check() {
+        if (Container.getLanguage().equals("russian")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("ru", "RU"));
+        }
+        if (Container.getLanguage().equals("belarusian")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("be", "BY"));
+        }
+        if (Container.getLanguage().equals("spanish")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("es", "HN"));
+        }
+        if (Container.getLanguage().equals("greek")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("el", "GR"));
+        }
+        changeLanguage();
+    }
 
     @FXML
     void initialize() {
-        if (Container.getTicketToUpdate() != null){
+        check();
+
+        Duration duration = Duration.seconds(5);
+        Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
+            check();
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
+        if (Container.getTicketToUpdate() != null) {
             Ticket ticket = Container.getTicketToUpdate();
             idInput.setText(String.valueOf(ticket.getId()));
             nameInput.setText(ticket.getName());
@@ -88,17 +139,17 @@ public class CollectionInputController {
                 ticketType = String.valueOf(ticket.getType());
             }
             Venue venue = ticket.getVenue();
-            if (venue != null){
+            if (venue != null) {
                 venueButton.setSelected(true);
                 venueNameInput.setVisible(true);
                 venueNameInput.setText(venue.getName());
                 capacityInput.setVisible(true);
                 capacityInput.setText(String.valueOf(venue.getCapacity()));
-                if (venue.getType() != null){
+                if (venue.getType() != null) {
                     venueType = String.valueOf(venue.getType());
                 }
                 Address address = venue.getAddress();
-                if (address != null){
+                if (address != null) {
                     streetInput.setVisible(true);
                     addressButton.setSelected(true);
                     streetInput.setText(address.getStreet());

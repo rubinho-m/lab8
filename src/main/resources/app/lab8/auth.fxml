@@ -44,11 +44,12 @@
             <Image url="@ticket.png" />
          </image>
       </ImageView>
-      <MenuButton alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="6.0" mnemonicParsing="false" styleClass="language" stylesheets="@style.css" text="Language" textFill="WHITE">
+      <MenuButton fx:id="languageButton" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="6.0" mnemonicParsing="false" styleClass="language" stylesheets="@style.css" text="Language" textFill="WHITE">
         <items>
-          <MenuItem mnemonicParsing="false" styleClass="one-of-language" text="Language 1" />
-          <MenuItem mnemonicParsing="false" styleClass="one-of-language" text="Language 2" />
-            <MenuItem mnemonicParsing="false" styleClass="one-of-language" text="Language 3" />
+          <MenuItem fx:id="russian" mnemonicParsing="false" styleClass="one-of-language" text="Language 1" />
+          <MenuItem fx:id="belarusian" mnemonicParsing="false" styleClass="one-of-language" text="Language 2" />
+            <MenuItem fx:id="greek" mnemonicParsing="false" styleClass="one-of-language" text="Language 3" />
+            <MenuItem fx:id="spanish" mnemonicParsing="false" styleClass="one-of-language" text="Language 4" />
         </items>
          <font>
             <Font size="16.0" />

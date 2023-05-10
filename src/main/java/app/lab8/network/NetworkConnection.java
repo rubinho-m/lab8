@@ -108,27 +108,27 @@ public class NetworkConnection {
                                 int condition = Integer.parseInt(response.getOutput().split(" ")[1]);
                                 if (condition == 0) {
                                     System.out.println("Регистрация прошла успешно");
-                                    Container.setAuthResponse("Регистрация прошла успешно");
+                                    Container.setAuthResponse("successReg");
                                     regFlag = true;
                                     authFlag = true;
                                 }
                                 if (condition == 1) {
                                     System.out.println("Такой пользователь уже есть");
-                                    Container.setAuthResponse("Такой пользователь уже есть");
+                                    Container.setAuthResponse("alreadyExists");
                                 }
                                 if (condition == 2) {
                                     System.out.println("Авторизация прошла успешно");
-                                    Container.setAuthResponse("Авторизация прошла успешно");
+                                    Container.setAuthResponse("successAuth");
                                     regFlag = true;
                                     authFlag = true;
                                 }
                                 if (condition == 3) {
                                     System.out.println("Неверный пароль");
-                                    Container.setAuthResponse("Неверный пароль");
+                                    Container.setAuthResponse("wrongPassword");
                                 }
                                 if (condition == 4) {
                                     System.out.println("Нет такого пользователя");
-                                    Container.setAuthResponse("Нет такого пользователя");
+                                    Container.setAuthResponse("noUser");
                                 }
                             } else {
 //                                System.out.println(response.getOutput());

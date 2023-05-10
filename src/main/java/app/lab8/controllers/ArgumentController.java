@@ -6,15 +6,19 @@ import app.lab8.common.dataStructures.ParsedString;
 import app.lab8.common.networkStructures.Request;
 import app.lab8.common.structureClasses.Ticket;
 import app.lab8.network.Container;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class ArgumentController {
@@ -22,6 +26,60 @@ public class ArgumentController {
 
     @FXML
     private TextField usernameInput;
+
+    @FXML
+    private Label header;
+
+    private ResourceBundle resourceBundle;
+
+    private String type = "";
+
+    @FXML
+    void initialize() {
+        check();
+        Duration duration = Duration.seconds(5);
+        Timeline timeline = new Timeline(new KeyFrame(duration, event -> {
+            check();
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
+
+    }
+
+    private void check() {
+        if (Container.getLanguage().equals("russian")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("ru", "RU"));
+        }
+        if (Container.getLanguage().equals("belarusian")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("be", "BY"));
+        }
+        if (Container.getLanguage().equals("spanish")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("es", "HN"));
+        }
+        if (Container.getLanguage().equals("greek")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("el", "GR"));
+        }
+        changeLanguage();
+    }
+
+    private void changeLanguage() {
+        header.setText(resourceBundle.getString("argumentInput"));
+        if (usernameInput.getPromptText().equals("Path") || type.equals("path")) {
+            type = "path";
+            usernameInput.setPromptText(resourceBundle.getString("path"));
+        }
+        if (usernameInput.getPromptText().equals("Price") || type.equals("price")) {
+            type = "price";
+            usernameInput.setPromptText(resourceBundle.getString("inputPrice"));
+        }
+        if (usernameInput.getPromptText().equals("Id") || type.equals("id")) {
+            type = "id";
+            usernameInput.setPromptText(resourceBundle.getString("id"));
+        }
+
+
+    }
 
 
     private void closeStage(ActionEvent event) {

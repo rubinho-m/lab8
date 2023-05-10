@@ -22,10 +22,13 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class MainController {
@@ -105,13 +108,165 @@ public class MainController {
     private Button resetButton;
     private String filterType = "";
 
+    @FXML
+    private MenuButton languageButton;
+
+    @FXML
+    private Label header;
+
+
+
+    @FXML
+    private MenuItem russian;
+
+    @FXML
+    private MenuItem belarusian;
+
+    @FXML
+    private MenuItem greek;
+
+    @FXML
+    private MenuItem spanish;
+
+    @FXML
+    private Button infoButton;
+
+    @FXML
+    private Button showButton;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button clearButton;
+
+    @FXML
+    private Button helpButton;
+    @FXML
+    private Button updateButton;
+
+    @FXML
+    private Button addIfMinButton;
+
+    @FXML
+    private Button historyButton;
+
+    @FXML
+    private Button minByPriceButton;
+
+    @FXML
+    private Button printByVenuesButton;
+
+    @FXML
+    private Button removeGreaterButton;
+
+    @FXML
+    private MenuItem idFilter;
+
+    @FXML
+    private MenuItem nameFilter;
+
+    @FXML
+    private MenuItem xFilter;
+
+    @FXML
+    private MenuItem yFilter;
+
+    @FXML
+    private MenuItem priceFilter;
+
+    @FXML
+    private MenuItem dateFilter;
+
+    @FXML
+    private MenuItem commentFilter;
+
+    @FXML
+    private MenuItem refundableFilter;
+
+    @FXML
+    private MenuItem typeFilter;
+
+    @FXML
+    private MenuItem creatorFilter;
+
+    @FXML
+    private MenuItem venueFilter;
+
+    @FXML
+    private MenuItem capacityFilter;
+
+    @FXML
+    private MenuItem streetFilter;
+
+    @FXML
+    private MenuItem venueTypeFilter;
+
 
     private ObservableList<TableTicket> tableTickets = FXCollections.observableArrayList();
+    private ResourceBundle resourceBundle;
+
+    private Map<String, LocalDate> dates = new HashMap<>();
+    private Map<String, Double> prices = new HashMap<>();
+
+    private Map<String, Long> capacities = new HashMap<>();
 
 
     @FXML
     void initialize() throws Exception {
-        userLabel.setText("User: " + Container.getUser());
+        if (Container.getLanguage().equals("russian")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("ru", "RU"));
+        }
+        if (Container.getLanguage().equals("belarusian")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("be", "BY"));
+        }
+        if (Container.getLanguage().equals("spanish")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("es", "HN"));
+        }
+        if (Container.getLanguage().equals("greek")) {
+            resourceBundle = ResourceBundle.getBundle("resources", new Locale("el", "GR"));
+        }
+        changeLanguage();
+
+
+        List<MenuItem> languageItems = languageButton.getItems();
+        for (MenuItem item : languageItems) {
+            item.setOnAction(e -> {
+                Container.setLanguage(item.getId());
+                if (item.getId().equals("russian")) {
+                    resourceBundle = ResourceBundle.getBundle("resources", new Locale("ru", "RU"));
+                    changeLanguage();
+                }
+                if (item.getId().equals("belarusian")) {
+                    resourceBundle = ResourceBundle.getBundle("resources", new Locale("be", "BY"));
+                    changeLanguage();
+                }
+                if (item.getId().equals("spanish")) {
+                    resourceBundle = ResourceBundle.getBundle("resources", new Locale("es", "HN"));
+                    changeLanguage();
+                }
+                if (item.getId().equals("greek")) {
+                    resourceBundle = ResourceBundle.getBundle("resources", new Locale("el", "GR"));
+                    changeLanguage();
+                }
+                try {
+                    boolean tableVisible = ticketTable.isVisible();
+                    sendShow(e);
+                    if (!tableVisible) {
+                        ticketTable.setVisible(false);
+                        filterInput.setVisible(false);
+                        filterMenu.setVisible(false);
+                        removeButton.setVisible(false);
+                        resetButton.setVisible(false);
+                        textDisplay.setVisible(true);
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+
+            });
+        }
+
         idColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<TableTicket, String>("price"));
@@ -134,7 +289,6 @@ public class MainController {
             TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
             ticket.setName(event.getNewValue());
             try {
-                System.out.println(getTicket(ticket));
                 sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
                 sendShow(new ActionEvent());
             } catch (Exception e) {
@@ -199,6 +353,19 @@ public class MainController {
         capacityColumn.setOnEditCommit(event -> {
             TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
             ticket.setCapacity(event.getNewValue());
+            if (!capacities.containsKey(event.getNewValue())) {
+
+                String tmp = event.getNewValue();
+
+                String output = "";
+                for (char c : tmp.toCharArray()) {
+                    if (Character.isDigit(c)) {
+                        output += c;
+                    }
+                }
+
+                capacities.put(event.getNewValue(), Long.valueOf(output));
+            }
             try {
                 sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
                 sendShow(new ActionEvent());
@@ -277,6 +444,18 @@ public class MainController {
         priceColumn.setOnEditCommit(event -> {
             TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
             ticket.setPrice(event.getNewValue());
+
+            String tmp = event.getNewValue();
+
+            String output = "";
+            for (char c : tmp.toCharArray()) {
+                if (Character.isDigit(c)) {
+                    output += c;
+                }
+            }
+            if (!prices.containsKey(event.getNewValue())) {
+                prices.put(event.getNewValue(), Double.valueOf(output));
+            }
             try {
                 sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
                 sendShow(new ActionEvent());
@@ -288,53 +467,58 @@ public class MainController {
                 }
             }
         });
-
-        dateColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        dateColumn.setOnEditCommit(event -> {
-            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
-            ticket.setCreationDate(event.getNewValue());
-            try {
-                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
-                sendShow(new ActionEvent());
-            } catch (Exception e) {
-                try {
-                    sendShow(new ActionEvent());
-                } catch (Exception ignored) {
-
-                }
-            }
-        });
+//
+//        dateColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+//        dateColumn.setOnEditCommit(event -> {
+//            TableTicket ticket = event.getTableView().getItems().get(event.getTablePosition().getRow());
+//            ticket.setCreationDate(event.getNewValue());
+//            try {
+//                sendCollectionCommand("update", ticket.getId(), getTicket(ticket));
+//                sendShow(new ActionEvent());
+//            } catch (Exception e) {
+//                try {
+//                    sendShow(new ActionEvent());
+//                } catch (Exception ignored) {
+//
+//                }
+//            }
+//        });
 
 
         List<MenuItem> filterItems = filterMenu.getItems();
         for (MenuItem item : filterItems) {
             item.setOnAction(e -> {
-                filterType = item.getText();
+                filterType = item.getId();
                 filterInput.setText("");
             });
         }
 
+
         FilteredList<TableTicket> filteredData = new FilteredList<>(tableTickets, p -> true);
         filterInput.textProperty().addListener((observable, oldValue, newValue) -> {
+
             filteredData.setPredicate(ticket -> {
+
                 if (newValue.isBlank() || filterType.isBlank()) {
                     return true;
                 }
+                System.out.println(newValue + " " + ticket.getName());
+                System.out.println();
                 return Stream.of(
-                        filterType.equals("id") && String.valueOf(ticket.getId()).equals(newValue),
-                        filterType.equals("name") && ticket.getName().contains(newValue),
-                        filterType.equals("x") && ticket.getX().equals(newValue),
-                        filterType.equals("y") && ticket.getY().equals(newValue),
-                        filterType.equals("price") && ticket.getPrice().equals(newValue),
-                        filterType.equals("date") && ticket.getCreationDate().contains(newValue),
-                        filterType.equals("comment") && ticket.getComment().contains(newValue),
-                        filterType.equals("refundable") && ticket.getRefundable().equals(newValue),
-                        filterType.equals("type") && ticket.getType().equals(newValue),
-                        filterType.equals("creator") && ticket.getUser().equals(newValue),
-                        filterType.equals("venue") && ticket.getVenueName().equals(newValue),
-                        filterType.equals("capacity") && ticket.getCapacity().equals(newValue),
-                        filterType.equals("street") && ticket.getStreet().equals(newValue),
-                        filterType.equals("venue type") && ticket.getVenueType().equals(newValue)
+                        filterType.equals("idFilter") && String.valueOf(ticket.getId()).equals(newValue),
+                        filterType.equals("nameFilter") && ticket.getName().contains(newValue),
+                        filterType.equals("xFilter") && ticket.getX().equals(newValue),
+                        filterType.equals("yFilter") && ticket.getY().equals(newValue),
+                        filterType.equals("priceFilter") && ticket.getPrice().equals(newValue),
+                        filterType.equals("dateFilter") && ticket.getCreationDate().contains(newValue),
+                        filterType.equals("commentFilter") && ticket.getComment().contains(newValue),
+                        filterType.equals("refundableFilter") && ticket.getRefundable().equals(newValue),
+                        filterType.equals("typeFilter") && ticket.getType().equals(newValue),
+                        filterType.equals("creatorFilter") && ticket.getUser().equals(newValue),
+                        filterType.equals("venueFilter") && ticket.getVenueName().equals(newValue),
+                        filterType.equals("capacityFilter") && ticket.getCapacity().equals(newValue),
+                        filterType.equals("streetFilter") && ticket.getStreet().equals(newValue),
+                        filterType.equals("venueTypeFilter") && ticket.getVenueType().equals(newValue)
                 ).anyMatch(Boolean::booleanValue);
             });
         });
@@ -353,11 +537,68 @@ public class MainController {
         timeline.play();
 
 
+    }
+
+    private void changeLanguage() {
+        userLabel.setText(resourceBundle.getString("user") + ": " + Container.getUser());
+        languageButton.setText(resourceBundle.getString("language"));
+        russian.setText(resourceBundle.getString("russian"));
+        belarusian.setText(resourceBundle.getString("belarusian"));
+        greek.setText(resourceBundle.getString("greek"));
+        spanish.setText(resourceBundle.getString("spanish"));
+        header.setText(resourceBundle.getString("header"));
+        infoButton.setText(resourceBundle.getString("info"));
+        showButton.setText(resourceBundle.getString("show"));
+        addButton.setText(resourceBundle.getString("add"));
+        clearButton.setText(resourceBundle.getString("clear"));
+        executeScriptButton.setText(resourceBundle.getString("execute_script"));
+        helpButton.setText(resourceBundle.getString("help"));
+        removeByIdButton.setText(resourceBundle.getString("remove_by_id"));
+        updateButton.setText(resourceBundle.getString("update"));
+        addIfMinButton.setText(resourceBundle.getString("add_if_min"));
+        historyButton.setText(resourceBundle.getString("history"));
+        minByPriceButton.setText(resourceBundle.getString("min_by_price"));
+        printByVenuesButton.setText(resourceBundle.getString("print_by_venues"));
+        filterButton.setText(resourceBundle.getString("filter_greater_than_price"));
+        removeGreaterButton.setText(resourceBundle.getString("remove_greater"));
+        idColumn.setText(resourceBundle.getString("id"));
+        nameColumn.setText(resourceBundle.getString("name"));
+        xColumn.setText(resourceBundle.getString("x"));
+        yColumn.setText(resourceBundle.getString("y"));
+        priceColumn.setText(resourceBundle.getString("price"));
+        dateColumn.setText(resourceBundle.getString("date"));
+        commentColumn.setText(resourceBundle.getString("comment"));
+        refundableColumn.setText(resourceBundle.getString("refundable"));
+        typeColumn.setText(resourceBundle.getString("type"));
+        creatorColumn.setText(resourceBundle.getString("user"));
+        venueColumn.setText(resourceBundle.getString("venueName"));
+        capacityColumn.setText(resourceBundle.getString("capacity"));
+        streetColumn.setText(resourceBundle.getString("street"));
+        venueTypeColumn.setText(resourceBundle.getString("type"));
+        removeButton.setText(resourceBundle.getString("remove"));
+        filterMenu.setText(resourceBundle.getString("filter"));
+        resetButton.setText(resourceBundle.getString("resetButton"));
+
+
+        idFilter.setText(resourceBundle.getString("id"));
+        nameFilter.setText(resourceBundle.getString("name"));
+        xFilter.setText(resourceBundle.getString("x"));
+        yFilter.setText(resourceBundle.getString("y"));
+        priceFilter.setText(resourceBundle.getString("price"));
+        dateFilter.setText(resourceBundle.getString("date"));
+        commentFilter.setText(resourceBundle.getString("comment"));
+        refundableFilter.setText(resourceBundle.getString("refundable"));
+        typeFilter.setText(resourceBundle.getString("type"));
+        creatorFilter.setText(resourceBundle.getString("user"));
+        venueFilter.setText(resourceBundle.getString("venueName"));
+        capacityFilter.setText(resourceBundle.getString("capacity"));
+        streetFilter.setText(resourceBundle.getString("street"));
+        venueTypeFilter.setText(resourceBundle.getString("type"));
+
 
     }
 
     private Ticket getTicket(TableTicket ticket) {
-        System.out.println(ticket);
         Ticket returnTicket = new Ticket();
         returnTicket.setId(Long.valueOf(ticket.getId()));
         returnTicket.setName(ticket.getName());
@@ -365,9 +606,12 @@ public class MainController {
         coordinates.setX(Float.parseFloat(ticket.getX()));
         coordinates.setY(Integer.parseInt(ticket.getY()));
         returnTicket.setCoordinates(coordinates);
-        returnTicket.setPrice(Double.valueOf(ticket.getPrice()));
+
+        returnTicket.setPrice(prices.get(ticket.getPrice()));
+
+
         returnTicket.setComment(ticket.getComment());
-        returnTicket.setCreationDate(LocalDate.parse(ticket.getCreationDate()));
+        returnTicket.setCreationDate(dates.get(ticket.getCreationDate()));
         returnTicket.setRefundable(Boolean.parseBoolean(ticket.getRefundable()));
         returnTicket.setUser(ticket.getUser());
         if (ticket.getType() != null && !ticket.getType().equals("null")) {
@@ -377,30 +621,23 @@ public class MainController {
         }
         Venue venue = new Venue();
         if (ticket.getVenueName() != null && !ticket.getVenueName().equals("null")) {
-            System.out.println(0);
             venue.setId(ticket.getVenueId());
-            System.out.println(1);
             venue.setName(ticket.getVenueName());
-            System.out.println(2);
             if (ticket.getVenueType() != null && !ticket.getVenueType().equals("null")) {
                 venue.setType(VenueType.valueOf(ticket.getVenueType()));
             } else {
                 venue.setType(null);
             }
             if (ticket.getCapacity() != null && !ticket.getCapacity().equals("null")) {
-                venue.setCapacity(Long.parseLong(ticket.getCapacity()));
+                venue.setCapacity(capacities.get(ticket.getCapacity()));
+//                venue.setCapacity(Long.parseLong(ticket.getCapacity()));
             }
-            System.out.println(4);
             Address address = new Address();
-            System.out.println(5);
             if (ticket.getStreet() != null && !ticket.getStreet().equals("null")) {
                 address.setStreet(ticket.getStreet());
             }
-            System.out.println(6);
             venue.setAddress(address);
-            System.out.println(7);
             returnTicket.setVenue(venue);
-            System.out.println(8);
         }
 
         return returnTicket;
@@ -459,6 +696,10 @@ public class MainController {
 
     @FXML
     void sendShow(ActionEvent event) throws Exception {
+//        resourceBundle = ResourceBundle.getBundle("resources", new Locale("en", "US"));
+
+        Locale locale = resourceBundle.getLocale();
+
         sendCommandWithoutArgument("show");
 
         ticketTable.setVisible(true);
@@ -473,12 +714,41 @@ public class MainController {
 
         for (Ticket ticket : tickets) {
             TableTicket tableTicket = new TableTicket();
+
+//            tableTicket.setId(String.format(locale, "%,d", ticket.getId()));
             tableTicket.setId(String.valueOf(ticket.getId()));
             tableTicket.setName(ticket.getName());
             tableTicket.setX(String.valueOf(ticket.getCoordinates().getX()));
+//
             tableTicket.setY(String.valueOf(ticket.getCoordinates().getY()));
-            tableTicket.setPrice(String.valueOf(ticket.getPrice()));
-            tableTicket.setCreationDate(String.valueOf(ticket.getCreationDate()));
+
+            double price = ticket.getPrice();
+            NumberFormat nf = NumberFormat.getInstance(locale);
+            String localPrice = nf.format(price);
+            tableTicket.setPrice(localPrice);
+
+            if (!prices.containsKey(localPrice)) {
+                prices.put(localPrice, price);
+            }
+
+
+//            java.util.Date date = java.util.Date.from(ticket.getCreationDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            int year = ticket.getCreationDate().getYear();
+            int month = ticket.getCreationDate().getMonthValue();
+            int day = ticket.getCreationDate().getDayOfMonth();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, (month - 1), day);
+
+            java.util.Date date = calendar.getTime();
+
+
+            tableTicket.setCreationDate(DateFormat.getDateInstance(DateFormat.MEDIUM, locale).format(date));
+            if (!dates.containsKey(tableTicket.getCreationDate())) {
+                dates.put(tableTicket.getCreationDate(), ticket.getCreationDate());
+            }
+
+//            tableTicket.setCreationDate(String.valueOf(ticket.getCreationDate()));
             tableTicket.setUser(ticket.getUser());
             tableTicket.setComment(ticket.getComment());
             tableTicket.setRefundable(String.valueOf(ticket.isRefundable()));
@@ -490,11 +760,22 @@ public class MainController {
                 tableTicket.setVenueType(null);
                 tableTicket.setStreet(null);
             } else {
-                tableTicket.setVenueId(ticket.getVenue().getId());
+                tableTicket.setVenueId((int) ticket.getId());
                 tableTicket.setVenueName(ticket.getVenue().getName());
-                tableTicket.setCapacity(String.valueOf(ticket.getVenue().getCapacity()));
+                long capacity = ticket.getVenue().getCapacity();
+                String localCapacity = nf.format(capacity);
+                tableTicket.setCapacity(localCapacity);
+
+                if (!capacities.containsKey(localCapacity)) {
+                    capacities.put(localCapacity, capacity);
+                }
+//                tableTicket.setCapacity(String.valueOf(ticket.getVenue().getCapacity()));
                 tableTicket.setVenueType(String.valueOf(ticket.getVenue().getType()));
-                tableTicket.setStreet(ticket.getVenue().getAddress().getStreet());
+                if (ticket.getVenue().getAddress() != null) {
+                    tableTicket.setStreet(ticket.getVenue().getAddress().getStreet());
+                } else {
+                    tableTicket.setStreet(null);
+                }
             }
             tableTickets.add(tableTicket);
         }
@@ -634,6 +915,12 @@ public class MainController {
         commandWithArguments.add(argument);
         Request request = makeRequest(commandWithArguments, null);
         App.networkConnection.connectionManage(request);
+
+    }
+
+    @FXML
+    private void sortCollection(String id) {
+
 
     }
 

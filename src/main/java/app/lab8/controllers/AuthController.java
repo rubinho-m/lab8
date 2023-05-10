@@ -10,11 +10,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class AuthController {
     @FXML
@@ -30,6 +31,9 @@ public class AuthController {
     private Scene scene;
 
     @FXML
+    private Label header;
+
+    @FXML
     private Button sendButton;
 
     @FXML
@@ -37,10 +41,73 @@ public class AuthController {
 
     @FXML
     private TextField usernameInput;
+
+    @FXML
+    MenuButton languageButton;
+
+    @FXML
+    private MenuItem russian;
+
+    @FXML
+    private MenuItem belarusian;
+
+    @FXML
+    private MenuItem greek;
+
+    @FXML
+    private MenuItem spanish;
     private String login;
     private String password;
     private String type;
     private Authentication authentication;
+
+    private ResourceBundle resourceBundle;
+
+    @FXML
+    void initialize() {
+        resourceBundle = ResourceBundle.getBundle("resources", new Locale("ru", "RU"));
+        Container.setLanguage("russian");
+        changeLanguage();
+
+        List<MenuItem> languageItems = languageButton.getItems();
+        for (MenuItem item : languageItems) {
+            item.setOnAction(e -> {
+                Container.setLanguage(item.getId());
+                if (item.getId().equals("russian")){
+                    resourceBundle = ResourceBundle.getBundle("resources", new Locale("ru", "RU"));
+                    changeLanguage();
+                }
+                if (item.getId().equals("belarusian")){
+                    resourceBundle = ResourceBundle.getBundle("resources", new Locale("be", "BY"));
+                    changeLanguage();
+                }
+                if (item.getId().equals("spanish")){
+                    resourceBundle = ResourceBundle.getBundle("resources", new Locale("es", "HN"));
+                    changeLanguage();
+                }
+                if (item.getId().equals("greek")){
+                    resourceBundle = ResourceBundle.getBundle("resources", new Locale("el", "GR"));
+                    changeLanguage();
+                }
+            });
+        }
+
+    }
+
+
+    private void changeLanguage(){
+        loginButton.setText(resourceBundle.getString("logIn"));
+        passwordInput.setPromptText(resourceBundle.getString("password"));
+        header.setText(resourceBundle.getString("header"));
+        sendButton.setText(resourceBundle.getString("send"));
+        signUpButton.setText(resourceBundle.getString("signUp"));
+        usernameInput.setPromptText(resourceBundle.getString("username"));
+        languageButton.setText(resourceBundle.getString("language"));
+        russian.setText(resourceBundle.getString("russian"));
+        belarusian.setText(resourceBundle.getString("belarusian"));
+        greek.setText(resourceBundle.getString("greek"));
+        spanish.setText(resourceBundle.getString("spanish"));
+    }
 
     private void visibleManage() {
         loginButton.setVisible(false);
@@ -79,7 +146,7 @@ public class AuthController {
             stage.show();
         } else {
             errorLabel.setVisible(true);
-            errorLabel.setText(Container.getAuthResponse());
+            errorLabel.setText(resourceBundle.getString(Container.getAuthResponse()));
 
         }
 

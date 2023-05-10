@@ -15,11 +15,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.lab8.controllers.MainController">
    <children>
-      <MenuButton alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="10.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="151.0" styleClass="language" stylesheets="@style.css" text="Language" textFill="WHITE">
+      <MenuButton fx:id="languageButton" alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="10.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="151.0" styleClass="language" stylesheets="@style.css" text="Language" textFill="WHITE">
          <items>
-            <MenuItem mnemonicParsing="false" styleClass="one-of-language" text="Language 1" />
-            <MenuItem mnemonicParsing="false" styleClass="one-of-language" text="Language 2" />
-            <MenuItem mnemonicParsing="false" styleClass="one-of-language" text="Language 3" />
+            <MenuItem fx:id="russian" mnemonicParsing="false" styleClass="one-of-language" text="Language 1" />
+            <MenuItem fx:id="belarusian" mnemonicParsing="false" styleClass="one-of-language" text="Language 2" />
+            <MenuItem fx:id="greek" mnemonicParsing="false" styleClass="one-of-language" text="Language 3" />
+            <MenuItem fx:id="spanish" mnemonicParsing="false" styleClass="one-of-language" text="Language 4" />
          </items>
          <font>
             <Font size="16.0" />
@@ -28,7 +29,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </MenuButton>
-      <Label fx:id="header" layoutX="475.0" layoutY="-1.0" prefHeight="94.0" prefWidth="306.0" styleClass="name" stylesheets="@style.css" text="TICKETS" textFill="#008f13">
+      <Label fx:id="header" layoutX="475.0" layoutY="-7.0" prefHeight="80.0" prefWidth="571.0" styleClass="name" stylesheets="@style.css" text="TICKETS" textFill="#008f13">
          <font>
             <Font name="Ubuntu Light" size="72.0" />
          </font>
@@ -41,20 +42,20 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="931.0" prefWidth="246.0">
                <children>
-                  <Button layoutX="26.0" layoutY="14.0" mnemonicParsing="false" onAction="#sendInfo" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="info" />
-                  <Button layoutX="26.0" layoutY="82.0" mnemonicParsing="false" onAction="#sendShow" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="show" />
-                  <Button layoutX="26.0" layoutY="146.0" mnemonicParsing="false" onAction="#showAdd" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="add" />
-                  <Button layoutX="26.0" layoutY="214.0" mnemonicParsing="false" onAction="#sendClear" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="clear" />
+                  <Button fx:id="infoButton" layoutX="26.0" layoutY="14.0" mnemonicParsing="false" onAction="#sendInfo" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="info" />
+                  <Button fx:id="showButton" layoutX="26.0" layoutY="82.0" mnemonicParsing="false" onAction="#sendShow" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="show" />
+                  <Button fx:id="addButton" layoutX="26.0" layoutY="146.0" mnemonicParsing="false" onAction="#showAdd" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="add" />
+                  <Button fx:id="clearButton" layoutX="26.0" layoutY="214.0" mnemonicParsing="false" onAction="#sendClear" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="clear" />
                   <Button fx:id="executeScriptButton" layoutX="26.0" layoutY="278.0" mnemonicParsing="false" onAction="#showExecuteScript" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="execute script" />
-                  <Button layoutX="26.0" layoutY="346.0" mnemonicParsing="false" onAction="#sendHelp" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="help" />
+                  <Button fx:id="helpButton" layoutX="26.0" layoutY="346.0" mnemonicParsing="false" onAction="#sendHelp" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="help" />
                   <Button fx:id="removeByIdButton" layoutX="26.0" layoutY="410.0" mnemonicParsing="false" onAction="#showRemoveById" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="remove by id" />
-                  <Button layoutX="26.0" layoutY="478.0" mnemonicParsing="false" onAction="#showUpdate" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="update" />
-                  <Button layoutX="26.0" layoutY="544.0" mnemonicParsing="false" onAction="#showAddIfMin" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="add if min" />
-                  <Button layoutX="26.0" layoutY="612.0" mnemonicParsing="false" onAction="#sendHistory" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="history" />
-                  <Button layoutX="26.0" layoutY="676.0" mnemonicParsing="false" onAction="#sendMinByPrice" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="min by price" />
-                  <Button layoutX="26.0" layoutY="744.0" mnemonicParsing="false" onAction="#sendPrintVenues" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="print by venues" />
+                  <Button fx:id="updateButton" layoutX="26.0" layoutY="478.0" mnemonicParsing="false" onAction="#showUpdate" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="update" />
+                  <Button fx:id="addIfMinButton" layoutX="26.0" layoutY="544.0" mnemonicParsing="false" onAction="#showAddIfMin" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="add if min" />
+                  <Button fx:id="historyButton" layoutX="26.0" layoutY="612.0" mnemonicParsing="false" onAction="#sendHistory" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="history" />
+                  <Button fx:id="minByPriceButton" layoutX="26.0" layoutY="676.0" mnemonicParsing="false" onAction="#sendMinByPrice" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="min by price" />
+                  <Button fx:id="printByVenuesButton" layoutX="26.0" layoutY="744.0" mnemonicParsing="false" onAction="#sendPrintVenues" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="print by venues" />
                   <Button fx:id="filterButton" layoutX="26.0" layoutY="808.0" mnemonicParsing="false" onAction="#showFilter" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="filter &gt; than price" />
-                  <Button layoutX="26.0" layoutY="876.0" mnemonicParsing="false" onAction="#showRemoveGreater" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="remove greater" />
+                  <Button fx:id="removeGreaterButton" layoutX="26.0" layoutY="876.0" mnemonicParsing="false" onAction="#showRemoveGreater" prefHeight="48.0" prefWidth="205.0" stylesheets="@style.css" text="remove greater" />
                </children>
             </AnchorPane>
         </content>
@@ -67,42 +68,60 @@
       </Label>
       <TableView fx:id="ticketTable" editable="true" layoutX="335.0" layoutY="111.0" prefHeight="613.0" prefWidth="866.0" stylesheets="@style.css" visible="false">
         <columns>
-          <TableColumn fx:id="idColumn" prefWidth="44.800048828125" resizable="false" text="id" />
-          <TableColumn fx:id="nameColumn" prefWidth="53.600006103515625" resizable="false" text="name" />
-            <TableColumn prefWidth="43.199981689453125" resizable="false" text="x" fx:id="xColumn" />
-            <TableColumn fx:id="yColumn" prefWidth="50.39996337890625" resizable="false" text="y" />
-            <TableColumn fx:id="priceColumn" prefWidth="52.800048828125" resizable="false" text="price" />
-            <TableColumn fx:id="dateColumn" prefWidth="56.00006103515625" resizable="false" text="date" />
-            <TableColumn fx:id="commentColumn" prefWidth="101.5999755859375" resizable="false" text="comment" />
-            <TableColumn fx:id="refundableColumn" prefWidth="72.79998779296875" resizable="false" text="refundable" />
-            <TableColumn fx:id="typeColumn" prefWidth="72.53314208984375" resizable="false" text="type" />
-            <TableColumn fx:id="creatorColumn" prefWidth="90.400146484375" resizable="false" text="creator" />
-            <TableColumn fx:id="venueColumn" prefWidth="91.99993896484375" resizable="false" text="venue" />
-            <TableColumn fx:id="capacityColumn" prefWidth="53.8668212890625" resizable="false" text="capacity" />
-            <TableColumn fx:id="streetColumn" prefWidth="73.333251953125" resizable="false" text="street" />
-            <TableColumn fx:id="venueTypeColumn" prefWidth="67.4666748046875" resizable="false" text="type" />
+          <TableColumn fx:id="idColumn" prefWidth="57.60003662109375" text="id" />
+          <TableColumn fx:id="nameColumn" prefWidth="42.39996337890625" text="name" />
+            <TableColumn prefWidth="55.199951171875" text="x" fx:id="xColumn" />
+            <TableColumn fx:id="yColumn" prefWidth="53.60003662109375" text="y" />
+            <TableColumn fx:id="priceColumn" prefWidth="55.199951171875" text="price" />
+            <TableColumn fx:id="dateColumn" prefWidth="62.39996337890625" text="date" />
+            <TableColumn fx:id="commentColumn" prefWidth="81.5999755859375" text="comment" />
+            <TableColumn fx:id="refundableColumn" prefWidth="78.4000244140625" text="refundable" />
+            <TableColumn fx:id="typeColumn" prefWidth="67.2000732421875" text="type" />
+            <TableColumn fx:id="creatorColumn" prefWidth="76.79998779296875" text="creator" />
+            <TableColumn fx:id="venueColumn" prefWidth="106.40008544921875" text="venue" />
+            <TableColumn fx:id="capacityColumn" prefWidth="53.8668212890625" text="capacity" />
+            <TableColumn fx:id="streetColumn" prefWidth="73.333251953125" text="street" />
+            <TableColumn fx:id="venueTypeColumn" prefWidth="67.4666748046875" text="type" />
         </columns>
       </TableView>
-      <Button fx:id="removeButton" layoutX="1063.0" layoutY="734.0" mnemonicParsing="false" onAction="#removeSelected" prefHeight="42.0" prefWidth="130.0" stylesheets="@style.css" text="remove" visible="false" />
-      <TextField fx:id="filterInput" layoutX="816.0" layoutY="59.0" prefHeight="35.0" prefWidth="202.0" styleClass="input-field" stylesheets="@style.css" visible="false" />
-      <MenuButton fx:id="filterMenu" layoutX="1055.0" layoutY="61.0" mnemonicParsing="false" styleClass="language" stylesheets="@style.css" text="Фильтр" textFill="WHITE" visible="false">
+      <Button fx:id="removeButton" layoutX="1054.0" layoutY="753.0" mnemonicParsing="false" onAction="#removeSelected" prefHeight="42.0" prefWidth="130.0" stylesheets="@style.css" text="remove" visible="false" />
+      <TextField fx:id="filterInput" layoutX="817.0" layoutY="76.0" prefHeight="35.0" prefWidth="202.0" styleClass="input-field" stylesheets="@style.css" visible="false" />
+      <MenuButton fx:id="filterMenu" layoutX="1030.0" layoutY="77.0" mnemonicParsing="false" styleClass="language" stylesheets="@style.css" text="Фильтр" textFill="WHITE" visible="false">
         <items>
-            <MenuItem mnemonicParsing="false" text="id" />
-            <MenuItem mnemonicParsing="false" text="name" />
-          <MenuItem mnemonicParsing="false" text="x" />
-          <MenuItem mnemonicParsing="false" text="y" />
-            <MenuItem mnemonicParsing="false" text="price" />
-            <MenuItem mnemonicParsing="false" text="date" />
-            <MenuItem mnemonicParsing="false" text="comment" />
-            <MenuItem mnemonicParsing="false" text="refundable" />
-            <MenuItem mnemonicParsing="false" text="type" />
-            <MenuItem mnemonicParsing="false" text="creator" />
-            <MenuItem mnemonicParsing="false" text="venue" />
-            <MenuItem mnemonicParsing="false" text="capacity" />
-            <MenuItem mnemonicParsing="false" text="street" />
-            <MenuItem mnemonicParsing="false" text="venue type" />
+            <MenuItem fx:id="idFilter" mnemonicParsing="false" text="id" />
+            <MenuItem fx:id="nameFilter" mnemonicParsing="false" text="name" />
+          <MenuItem mnemonicParsing="false" text="x" fx:id="xFilter" />
+          <MenuItem fx:id="yFilter" mnemonicParsing="false" text="y" />
+            <MenuItem fx:id="priceFilter" mnemonicParsing="false" text="price" />
+            <MenuItem fx:id="dateFilter" mnemonicParsing="false" text="date" />
+            <MenuItem fx:id="commentFilter" mnemonicParsing="false" text="comment" />
+            <MenuItem fx:id="refundableFilter" mnemonicParsing="false" text="refundable" />
+            <MenuItem fx:id="typeFilter" mnemonicParsing="false" text="type" />
+            <MenuItem fx:id="creatorFilter" mnemonicParsing="false" text="creator" />
+            <MenuItem fx:id="venueFilter" mnemonicParsing="false" text="venue" />
+            <MenuItem fx:id="capacityFilter" mnemonicParsing="false" text="capacity" />
+            <MenuItem fx:id="streetFilter" mnemonicParsing="false" text="street" />
+            <MenuItem fx:id="venueTypeFilter" mnemonicParsing="false" text="venue type" />
         </items>
       </MenuButton>
-      <Button fx:id="resetButton" layoutX="334.0" layoutY="738.0" mnemonicParsing="false" onAction="#resetFilter" stylesheets="@style.css" text="reset filter" visible="false" />
+      <Button fx:id="resetButton" layoutX="336.0" layoutY="753.0" mnemonicParsing="false" onAction="#resetFilter" stylesheets="@style.css" text="reset filter" visible="false" />
+      <MenuButton fx:id="sortButton" layoutX="335.0" layoutY="76.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="130.0" styleClass="language" stylesheets="@style.css" text="Фильтр" textFill="WHITE" visible="false">
+         <items>
+            <MenuItem fx:id="idFilter1" mnemonicParsing="false" text="id" />
+            <MenuItem fx:id="nameFilter1" mnemonicParsing="false" text="name" />
+            <MenuItem mnemonicParsing="false" text="x" fx:id="xFilter1" />
+            <MenuItem fx:id="yFilter1" mnemonicParsing="false" text="y" />
+            <MenuItem fx:id="priceFilter1" mnemonicParsing="false" text="price" />
+            <MenuItem fx:id="dateFilter1" mnemonicParsing="false" text="date" />
+            <MenuItem fx:id="commentFilter1" mnemonicParsing="false" text="comment" />
+            <MenuItem fx:id="refundableFilter1" mnemonicParsing="false" text="refundable" />
+            <MenuItem fx:id="typeFilter1" mnemonicParsing="false" text="type" />
+            <MenuItem fx:id="creatorFilter1" mnemonicParsing="false" text="creator" />
+            <MenuItem fx:id="venueFilter1" mnemonicParsing="false" text="venue" />
+            <MenuItem fx:id="capacityFilter1" mnemonicParsing="false" text="capacity" />
+            <MenuItem fx:id="streetFilter1" mnemonicParsing="false" text="street" />
+            <MenuItem fx:id="venueTypeFilter1" mnemonicParsing="false" text="venue type" />
+         </items>
+      </MenuButton>
    </children>
 </AnchorPane>

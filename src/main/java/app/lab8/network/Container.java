@@ -13,8 +13,15 @@ public class Container {
     private static String actualResponse = "";
     private static String lastResponse = "";
     private static Set<Ticket> tickets = new HashSet<>();
+    private static String language;
 
+    public static String getLanguage() {
+        return language;
+    }
 
+    public static void setLanguage(String language) {
+        Container.language = language;
+    }
 
     public static Ticket getTicketToUpdate() {
         return ticketToUpdate;
