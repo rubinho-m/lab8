@@ -71,6 +71,15 @@ public class CollectionInputController {
     @FXML
     private TextField idInput;
 
+//    @FXML
+//    private Button sendUpdateButton;
+
+//    @FXML
+//    private Button sendAddIfMinButton;
+//
+//    @FXML
+//    private Button sendRemoveGreaterButton;
+
     private String ticketType = null;
     private String venueType = null;
 
@@ -96,6 +105,7 @@ public class CollectionInputController {
         venueTypeMenue.setText(resourceBundle.getString("type"));
         addressButton.setText(resourceBundle.getString("addAddress"));
         streetInput.setPromptText(resourceBundle.getString("street"));
+        System.out.println(0);
 
     }
 
@@ -112,11 +122,13 @@ public class CollectionInputController {
         if (Container.getLanguage().equals("greek")) {
             resourceBundle = ResourceBundle.getBundle("resources", new Locale("el", "GR"));
         }
+        System.out.println("check");
         changeLanguage();
     }
 
     @FXML
     void initialize() {
+        System.out.println("init");
         check();
 
         Duration duration = Duration.seconds(5);
@@ -128,7 +140,12 @@ public class CollectionInputController {
 
         if (Container.getTicketToUpdate() != null) {
             Ticket ticket = Container.getTicketToUpdate();
-            idInput.setText(String.valueOf(ticket.getId()));
+            Container.setTicketToUpdate(null);
+            try {
+                idInput.setText(String.valueOf(ticket.getId()));
+            } catch (Exception ignored){
+
+            }
             nameInput.setText(ticket.getName());
             xInput.setText(String.valueOf(ticket.getCoordinates().getX()));
             yInput.setText(String.valueOf(ticket.getCoordinates().getY()));

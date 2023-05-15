@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 
@@ -230,6 +231,7 @@ public class VisualisationController {
                     coords.add((int) rectangle.getY());
                     Ticket ticketToUpdate = coordTickets.get(coords);
                     Container.setTicketToUpdate(ticketToUpdate);
+                    System.out.println(1);
                     showUpdate();
                 } catch (Exception ex) {
                     System.out.println(ex);
@@ -247,14 +249,22 @@ public class VisualisationController {
 
     @FXML
     private void showUpdate() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("update.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setX(100);
-        stage.setY(50);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
+        try {
+            System.out.println("Тут");
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("update.fxml"));
+            System.out.println("A");
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setX(100);
+            stage.setY(50);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println(e);
+        }
+
 
 
     }

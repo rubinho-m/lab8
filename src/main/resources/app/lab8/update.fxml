@@ -16,7 +16,7 @@
                 <Font name="Ubuntu Light" size="24.0" />
             </font>
         </Label>
-        <Button fx:id="sendUpdateButton" layoutX="68.0" layoutY="390.0" mnemonicParsing="false" onAction="#sendUpdate" prefHeight="54.0" prefWidth="184.0" stylesheets="@style.css" text="Send" textFill="WHITE" />
+        <Button fx:id="sendButton" layoutX="68.0" layoutY="390.0" mnemonicParsing="false" onAction="#sendUpdate" prefHeight="54.0" prefWidth="184.0" stylesheets="@style.css" text="Send" textFill="WHITE" />
         <TextField fx:id="nameInput" alignment="CENTER" layoutX="14.0" layoutY="93.0" prefHeight="32.0" prefWidth="120.0" promptText="name" styleClass="input-field" stylesheets="@style.css" />
       <TextField alignment="CENTER" layoutX="14.0" layoutY="135.0" prefHeight="32.0" prefWidth="120.0" promptText="x coordinate" styleClass="input-field" stylesheets="@style.css" fx:id="xInput" />
       <TextField fx:id="yInput" alignment="CENTER" layoutX="14.0" layoutY="179.0" prefHeight="32.0" prefWidth="120.0" promptText="y coordinate" styleClass="input-field" stylesheets="@style.css" />
